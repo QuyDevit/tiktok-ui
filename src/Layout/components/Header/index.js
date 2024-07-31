@@ -12,24 +12,25 @@ import styles from "./Header.module.scss";
 import images from "~/assets/images";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 import AccountItem from "~/components/AccountItem";
+import Button from "~/components/Button";
 
 export default function Header() {
-  const [searchResult, setsearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState([]);
+
   useEffect(() => {
     setTimeout(() => {
-      setsearchResult([]);
+      setSearchResult([]);
     }, 500);
   }, []);
-  // const [visible, setVisible] = useState(true);
 
   return (
     <header className={clsx(styles.wrapper)}>
       <div className={clsx(styles.inner)}>
         <div className={clsx(styles.mylogo)}>
-          <img src={images.logo} alt="Logo"></img>
+          <img src={images.logo} alt="Logo" />
         </div>
         <Tippy
-          interactive={true}
+          interactive
           visible={searchResult.length > 0}
           render={(attrs) => (
             <div className={clsx(styles.searchResult)} tabIndex="-1" {...attrs}>
@@ -57,9 +58,8 @@ export default function Header() {
           </div>
         </Tippy>
         <div className={clsx(styles.action)}>
-          <div>
-            <h1>Upload</h1>
-          </div>
+          <Button text>Upload</Button>
+          <Button primary>Log in</Button>
         </div>
       </div>
     </header>
