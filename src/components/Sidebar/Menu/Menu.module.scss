@@ -1,0 +1,35 @@
+.sidebarNav {
+  margin-bottom: 8px;
+}
+.menuItem {
+  display: flex;
+  font-size: 1.8rem;
+  font-weight: 700;
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+  color: var(--text-color);
+  transition: background-color ease-in-out 200ms;
+
+  &.active {
+    color: var(--primary);
+  }
+
+  &:hover {
+    background-color: rgba(22, 24, 35, 0.03);
+  }
+}
+.title {
+  margin-left: 10px;
+  font-size: 1.6rem;
+}
+:global(body.darkMode) {
+  .menuItem:hover {
+    background-color: var(--light-flat-2);
+  }
+}
+@media only screen and (max-width: 1143px) {
+  .title{
+    display: none;
+  }
+}

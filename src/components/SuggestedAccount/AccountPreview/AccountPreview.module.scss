@@ -1,0 +1,62 @@
+.wrapper {
+  padding: 20px;
+  width: 320px;
+  z-index: 2;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.followBtn {
+  padding: 6px 16px;
+}
+.body {
+  margin-top: 12px;
+}
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.nickname {
+  font-size: 1.8rem;
+}
+.display {
+  font-size: 1.4rem;
+}
+.check {
+  margin-left: 6px;
+  color: #20d5ec;
+  font-size: 1.2rem;
+}
+.analytics {
+  margin-top: 10px;
+  font-size: 1.7rem;
+}
+.value ~ .value {
+  margin-left: 12px;
+}
+.label {
+  color: #161823bf;
+  margin-left: 4px;
+}
+.bio{
+  border-top: 1px solid rgba(22, 24, 35, 0.08);
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+:global(body.darkMode) {
+  .label {
+    color: var(--light);
+  }
+  .followBtn{
+    background-color: var(--primary);
+  }
+  .avatar{
+    background-color:var(--light);
+  }
+}
+

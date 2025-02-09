@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { publicRoutes } from "~/routes";
-import { DefaultLayout } from "./Layout";
+import DefaultLayout from "./layouts";
 import { Fragment } from "react";
 function App() {
   return (
@@ -15,14 +15,19 @@ function App() {
               Layout = Fragment;
             }
             const Page = route.component;
+            const isFullWidth = route.isFullWidth || false;
             return (
               <Route
                 key={index}
                 path={route.path}
                 element={
-                  <Layout>
+                  Layout === Fragment ? (
                     <Page />
-                  </Layout>
+                  ) : (
+                    <Layout isFullWidth={isFullWidth}>
+                      <Page />
+                    </Layout>
+                  )
                 }
               />
             );

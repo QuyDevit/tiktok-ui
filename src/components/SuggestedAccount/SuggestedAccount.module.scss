@@ -1,0 +1,89 @@
+.wrapper {
+  padding: 8px 0;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    top: 0px;
+    height: 1px;
+    background: rgba(22, 24, 35, 0.12);
+    transform: scaleY(0.5);
+  }
+}
+.label {
+  padding: 8px;
+  font-size: 1.4rem;
+  color: rgba(22, 24, 35, 0.75);
+  font-weight: 600;
+}
+.accountItem {
+  display: flex;
+  padding: 8px;
+  transition: background-color ease-in-out 200ms;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(22, 24, 35, 0.03);
+  }
+}
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.nickname {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  color: #161823;
+  line-height: 1.2;
+}
+.display {
+  font-size: 1.2rem;
+  color: #161823bf;
+}
+.check {
+  margin-left: 6px;
+  color: #20d5ec;
+  font-size: 1.2rem;
+}
+.itemInfo {
+  flex: 1;
+  margin-left: 12px;
+}
+.moreBtn {
+  color: #fe2c55;
+  padding: 8px;
+  font-style: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.userid{
+  font-size: 1.5rem;
+}
+
+:global(body.darkMode) {
+  .label {
+    color: var(--light-flat-3);
+  }
+  .nickname {
+    strong {
+      color: var(--light);
+    }
+  }
+  .display {
+    color: var(--light-flat-1);
+  }
+  .accountItem:hover {
+    background-color: var(--light-flat-2);
+  }
+}
+@media only screen and (max-width: 1143px) {
+  .label,.itemInfo,.moreBtn{
+    display: none;
+  }
+}

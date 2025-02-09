@@ -1,0 +1,299 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.divHeaderContainer {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--default-layout-horizontal-spacer);
+}
+.feedback {
+  display: flex;
+  align-items: center;
+  span {
+    font-size: 1.4rem;
+    margin-left: 4px;
+    font-weight: 600;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+.divPageWrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.header {
+  font-size: 3.3rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 32px auto 16px;
+}
+.LoginOptionContainer {
+  color: rgb(22, 24, 35);
+  overflow-y: scroll;
+  padding: 10px 5px 2px 13px;
+  height: unset;
+  margin: 0 auto;
+  //   flex: 1;
+}
+.divBoxContainer {
+  display: flex;
+  align-items: center;
+  padding: 0 20px 0 12px;
+  border: 1px solid rgba(22, 24, 35, 0.12);
+  border-radius: 8px;
+  height: 44px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f8f8f8;
+  }
+}
+.divIconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.divTextContainer {
+  flex: 1;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.divAgreement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 50px;
+  color: rgba(22, 24, 35, 0.5);
+
+  p {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  strong {
+    cursor: pointer;
+    font-weight: 500;
+    color: rgb(22, 24, 35);
+  }
+}
+.divFooter {
+  border-top: 0.5px solid rgba(22, 24, 35, 0.12);
+
+  display: flex;
+  flex-direction: column;
+}
+.divNote {
+  height: 64px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btnLink {
+  font-size: 1.5rem;
+  background: none;
+  font-weight: 600;
+  color: var(--primary);
+  margin-left: 5px;
+  cursor: pointer;
+}
+.divBottom {
+  height: 84px;
+  background: rgb(18, 18, 18);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 144px;
+}
+.divLanguage {
+  height: 32px;
+  width: 172px;
+  border: 1px solid rgb(138, 139, 145);
+
+  select {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    color: var(--white);
+    option {
+      color: var(--black);
+    }
+  }
+}
+.divCopyRight {
+  font-size: 1.4rem;
+  line-height: 28px;
+  font-weight: 500;
+  color: rgb(138, 139, 145);
+}
+
+//With Email
+.divDescription {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+
+  label {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+}
+.link {
+  background: transparent;
+  font-size: 1.2rem;
+  color: rgba(90, 90, 90, 1);
+  display: inline-block;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.divInput {
+  position: relative;
+  margin-bottom: 9px;
+  background: rgba(22, 24, 35, 0.06);
+  border: 1px solid rgba(22, 24, 35, 0.12);
+  transition: 0.3s;
+  border-radius: 4px;
+  display: flex;
+  color: rgb(22, 24, 35);
+}
+.divAreaSelection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 12px;
+  height: 44px;
+  cursor: pointer;
+
+  &::after {
+    position: absolute;
+    content: "";
+    width: 1px;
+    height: 70%;
+    right: 0;
+    background: rgba(22, 24, 35, 0.12);
+  }
+}
+.label {
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+.inputWrapper {
+  flex: 1;
+  padding-inline-start: 12px;
+  padding-inline-end: 12px;
+  font-size: 1.6rem;
+  caret-color: rgb(254, 44, 85);
+  background: transparent;
+  color: rgb(22, 24, 35);
+  outline: none;
+  border-radius: 2px;
+  border: none rgba(22, 24, 35, 0.12);
+  height: 44px;
+}
+.btnSendCode {
+  position: relative;
+  background: transparent;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: rgb(220 220 220);
+    border-radius: 50%;
+  }
+}
+.btnLogin {
+  margin-top: 20px;
+  width: 100%;
+  height: 46px;
+
+  &:disabled {
+    background-color: rgba(22, 24, 35, 0.06);
+  }
+}
+.back {
+  width: 100%;
+  margin-top: 40px;
+  text-align: center;
+}
+.btnBack {
+  font-size: 1.4rem;
+}
+.splitLine {
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  margin: 0 16px;
+  background: rgba(22, 24, 35, 0.12);
+}
+.iconPassword {
+  background: transparent;
+  cursor: pointer;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 5px;
+
+  svg {
+    font-size: 1.6rem;
+    color: rgba(90, 90, 90, 1);
+  }
+}
+@keyframes rotateUp {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes rotateDown {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.iconSelection {
+  margin-left: 12px;
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+
+  &.open {
+    animation: rotateUp 0.3s forwards;
+  }
+
+  &.closed {
+    animation: rotateDown 0.3s forwards;
+  }
+}
+
+@media only screen and (max-width: 739px) {
+  .divBottom {
+    padding: 0 20px;
+  }
+}
+
+.error {
+  font-size: 12px;
+  line-height: 15px;
+  margin: 5px 0px;
+  color: rgb(255, 76, 58);
+  display: flex;
+}

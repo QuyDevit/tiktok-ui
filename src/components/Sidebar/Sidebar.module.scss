@@ -1,0 +1,101 @@
+.wrapper {
+  overflow-y: auto;
+  width: 356px;
+  padding: 20px 0 80px 8px;
+  margin-left: -18px;
+  position: fixed;
+  height: 100vh;
+  z-index: 1;
+  &:not(:hover)::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(22, 24, 35, 0.06);
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+.customIcon {
+  padding: 4px;
+}
+.login {
+  padding: 16px 0;
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    top: 0px;
+    height: 1px;
+    background: rgba(22, 24, 35, 0.12);
+    transform: scaleY(0.5);
+  }
+}
+.wrapperLogin {
+  padding: 0 8px;
+}
+
+.loginBtn {
+  width: 100%;
+  font-weight: 600;
+  padding: 12px 0;
+}
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+  padding: 4px;
+}
+.note{
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+.loadingWrapper{
+  display: flex;
+  flex-direction: column;
+}
+.loading{
+  height: 52px;
+  margin-top: 12px;
+}
+:global(body.darkMode) {
+  .note {
+    color: var(--light-flat-3);
+  }
+  .wrapper {
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: rgba(129, 129, 129, 0.06);
+    }
+  }
+}
+:global(body.lightMode) {
+  .note {
+    color: rgba(22, 24, 35, 0.5);
+  }
+}
+
+@media only screen and (max-width: 1143px) {
+  .wrapper {
+    width: 72px;
+    border-right: 1px solid rgba(22, 24, 35, 0.12);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding-inline: 8px;
+  }
+  .note,
+  .login {
+    display: none;
+  }
+}

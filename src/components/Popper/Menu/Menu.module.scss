@@ -1,0 +1,64 @@
+//menu
+.content {
+  width: 224px;
+  .item {
+    margin-left: 0;
+  }
+}
+.menuPopper {
+  padding-bottom: 8px;
+}
+
+.menuBody{
+  overflow-y: auto;
+}
+.item {
+  width: 100%;
+  justify-content: flex-start;
+  border-radius: 0;
+  padding: 11px 16px;
+  line-height: 1.8rem;
+  font-weight: 600;
+
+  &.separate {
+    border-top: 1px solid rgba(22,24,35,0.12);
+  }
+  
+  &:hover {
+    background-color: rgba(22, 24, 35, 0.03);
+  }
+}
+
+.checkIcon{
+  margin-left: 8px;
+}
+//Header
+.header {
+  position: relative;
+  height: 50px;
+  margin-top: -8px;
+  flex-shrink: 0;
+}
+.backBtn {
+  background-color: transparent;
+  width: 50px;
+  height: 100%;
+  cursor: pointer;
+}
+.headerTitle {
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+:global(body.darkMode) {
+  .icon{
+    fill: var(--white);
+  }
+}
+:global(body.lightMode) {
+  .icon{
+    fill: var(--black);
+  }
+}

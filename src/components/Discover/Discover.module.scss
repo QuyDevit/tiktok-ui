@@ -1,0 +1,68 @@
+.discover {
+  position: relative;
+  padding: 8px 8px 8px 0;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    top: 0px;
+    height: 1px;
+    background: rgba(22, 24, 35, 0.12);
+    transform: scaleY(0.5);
+  }
+}
+.title {
+  padding: 8px;
+  font-size: 1.4rem;
+  color: rgba(22, 24, 35, 0.75);
+  font-weight: 600;
+}
+.discoverList {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 8px;
+  width: 100%;
+}
+.hashtag {
+  width: fit-content;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  border: 1px solid rgba(22, 24, 35, 0.2);
+  padding: 3px 10px;
+  border-radius: 16px;
+  height: 24px;
+  margin: 0 8px 12px 0;
+  cursor: pointer;
+  color: rgba(22,24,35,.75);
+  &:hover {
+    background: rgba(22, 24, 35, .03);
+  }
+}
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.icon {
+  margin-right: 4px;
+}
+:global(body.darkMode) {
+  .hashtag {
+    border: 1px solid var(--light-flat-3);
+    color: var(--light-flat-3);
+    &:hover {
+      background: var(--light-flat-2);
+    }
+  }
+  .title{
+    color: var(--light-flat-3);
+  }
+}
+@media only screen and (max-width: 1143px) {
+  .discover{
+    display: none;
+  }
+}

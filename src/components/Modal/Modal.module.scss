@@ -1,0 +1,115 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+.modal {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    min-width: 300px;
+    max-width: 500px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes scaleUp {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+@keyframes tada {
+    0% { transform: scale(1); }
+    10%, 20% { transform: scale(0.9) rotate(-3deg); }
+    30%, 50%, 70%, 90% { transform: scale(1.1) rotate(3deg); }
+    40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
+    100% { transform: scale(1); }
+}
+@keyframes zoomIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.modal.bounceIn {
+    opacity: 0;
+    transform: scale(0.7);
+}
+.overlay.open .modal.bounceIn {
+    animation: bounceIn 0.5s ease forwards;
+}
+
+.modal.scaleUp {
+    opacity: 0;
+    transform: scale(0.5);
+}
+.overlay.open .modal.scaleUp {
+    animation: scaleUp 0.4s ease-out forwards;
+}
+
+.modal.tada {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.overlay.open .modal.tada {
+    animation: tada 0.7s ease-out forwards;
+    opacity: 1;
+}
+
+.modal.zoomIn {
+    opacity: 0;
+    transform: scale(0.3);
+}
+
+.overlay.open .modal.zoomIn {
+    animation: zoomIn 0.3s ease-out forwards;
+}
+:global(body.darkMode) {
+    .modal{
+        color: #000;
+    }
+}

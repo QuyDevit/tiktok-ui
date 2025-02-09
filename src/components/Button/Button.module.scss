@@ -2,8 +2,9 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.6rem;
   min-width: 100px;
+  font-size: 1.6rem;
+  font-family: var(--font-family);
   font-weight: 600;
   padding: 9px 16px;
   border-radius: 4px;
@@ -18,7 +19,17 @@
 
   &.disabled {
     pointer-events: none;
-    opacity: 0.5;
+    color: rgba(22, 24, 35, 0.34);
+    border: none;
+  }
+}
+:global(body.darkMode) {
+  .wrapper {
+    background: var(--dark-flat-1);
+    color: var(--white);
+    &:hover{
+      background: var(--dark-flat-hover);
+    }
   }
 }
 .rounded {
@@ -34,7 +45,7 @@
 
 .primary {
   background-color: var(--primary);
-  color: var(--white) !important;
+  color: var(--white) ;
   border-color: var(--primary);
 
   &:hover {
@@ -66,8 +77,19 @@
 
 .text {
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
+}
+.icon{
+  display: inline-block;
+  width: 24px;
+  text-align: center;
+}
+
+.title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .icon + .title,

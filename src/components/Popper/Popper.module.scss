@@ -1,4 +1,7 @@
+
 .wrapper {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-height: min(-156px + 100vh, 760px);
   min-height: 120px;
@@ -6,4 +9,10 @@
   background: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 12px;
   border-radius: 8px;
+}
+:global(body.darkMode) {
+  .wrapper {
+    background: var(--dark-flat-1);
+    color: var(--white);
+  }
 }

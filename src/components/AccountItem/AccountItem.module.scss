@@ -30,3 +30,15 @@
   color: #20d5ec;
   font-size: 1.2rem;
 }
+:global(body.darkMode) {
+  .username {
+    color: var(--light-flat-3);
+  }
+
+}
+:global(body.lightMode) {
+  .username {
+    color: #7f7f7f;
+  }
+
+}

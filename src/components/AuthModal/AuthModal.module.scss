@@ -1,0 +1,19 @@
+.container {
+  width: 483px;
+  padding: 20px 0 0 0;
+}
+.closeBtn {
+  position: absolute;
+  top: 14px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  background-color: rgba(22, 24, 35, 0.03);
+  cursor: pointer;
+}
+

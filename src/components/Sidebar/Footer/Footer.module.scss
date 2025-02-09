@@ -1,0 +1,54 @@
+.footer {
+  position: relative;
+  padding: 8px;
+  font-size: 1.2rem;
+  color: rgba(22, 24, 35, 0.5);
+  &::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    top: 0px;
+    height: 1px;
+    background: rgba(22, 24, 35, 0.12);
+    transform: scaleY(0.5);
+  }
+
+  .link {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+    a {
+      font-weight: 600;
+      margin: 6px 6px 0 0;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .copyRight {
+    display: flex;
+    align-items: center;
+    .icon {
+      margin-right: 4px;
+    }
+    a {
+      font-weight: 600;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+:global(body.darkMode) {
+  .footer{
+    color: var(--light-flat-1);
+  }
+}
+@media only screen and (max-width: 1143px) {
+  .footer{
+    display: none;
+  }
+}
