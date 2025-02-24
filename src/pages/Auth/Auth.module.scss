@@ -25,6 +25,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 552px;
 }
 .header {
   font-size: 3.3rem;
@@ -215,7 +216,7 @@
   }
 }
 .btnLogin {
-  margin-top: 20px;
+  margin-top: 16px;
   width: 100%;
   height: 46px;
 
@@ -225,7 +226,7 @@
 }
 .back {
   width: 100%;
-  margin-top: 40px;
+  margin-top: 20px;
   text-align: center;
 }
 .btnBack {
@@ -296,4 +297,19 @@
   margin: 5px 0px;
   color: rgb(255, 76, 58);
   display: flex;
+}
+
+//Signup phone and email
+.noteDescription {
+  color: rgba(22, 24, 35, 0.5);
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 12px;
+}
+.divTitle {
+  color: rgb(22, 24, 35);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  margin-bottom: 4px;
 }

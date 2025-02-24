@@ -4,7 +4,7 @@ import styles from "./Menu.module.scss";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 import MenuItem from "./MenuItem";
 import Header from "./Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { selectTheme } from "~/store/features/themeSlice";
@@ -21,6 +21,9 @@ function Menu({
   const currentLanguage = useSelector(selectLanguage);
   const [history, setHistory] = useState([{ data: items, title: null }]);
   const current = history[history.length - 1];
+  useEffect(() => {
+    setHistory([{ data: items, title: null }]);
+  }, [items]);
   
   const renderItems = () => {
     return current.data.map((item, index) => {

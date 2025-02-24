@@ -11,7 +11,7 @@ function MenuItem({ data, onClick }) {
     [styles.separate]: separate,
   });
   return (
-    <Button leftIcon={icon} to={to} className={classes} onClick={onClick}>
+    <Button leftIcon={icon} to={ to !=="/logout" ? to :undefined} className={classes} onClick={onClick}>
       {title}{" "}
       {isSelected  && (
         <FontAwesomeIcon icon={faCheck} className={styles.checkIcon} />

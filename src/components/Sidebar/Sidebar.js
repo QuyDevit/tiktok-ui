@@ -26,11 +26,12 @@ import Discover from "~/components/Discover/Discover";
 import Footer from "./Footer";
 import * as suggestService from "~/services/suggestAccountService";
 import { refreshHome } from "~/store/features/homeSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "~/store/features/authSlice";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
-  const currentUser = false;
+  const currentUser = useSelector(selectUser);
   const [isLoading, setIsLoading] = useState(true);
   const [seeAll, setSeeAll] = useState(false);
   const [accounts, setAccounts] = useState([]);
@@ -110,7 +111,7 @@ export default function Sidebar() {
           icon={
             currentUser ? (
               <Image
-                src="https://yt3.ggpht.com/ytc/AIdro_mhpdt52gf-ewuMICMSpf58jqqKXetktX-rAgmJkXZktJrVu4vDkBYngfAtIfmb6uJy3w=s88-c-k-c0x00ffffff-no-rj"
+                src={currentUser.avatar}
                 className={clsx(styles.userAvatar)}
               />
             ) : (

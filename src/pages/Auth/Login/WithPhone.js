@@ -13,7 +13,10 @@ import Button from "~/components/Button";
 import { useState } from "react";
 import PhoneCountrySelect from "~/components/PhoneCountrySelect";
 import config from "~/config";
-function WithEmail({ isModal = false }) {
+import { useDispatch } from "react-redux";
+import { setFormType } from "~/store/features/formAuthSlice";
+function WithPhone({ isModal = false }) {
+  const dispatch = useDispatch()
   const [isPassword, setIsPassword] = useState(false);
   const [isShowPass, setIsShowPass] = useState(false);
   const [showSelection, setShowSelection] = useState(false);
@@ -33,7 +36,7 @@ function WithEmail({ isModal = false }) {
     abbr: "VN",
   });
   // Kiểm tra Số điện thoại hợp lệ
-  const validatePhone  = (value) => {
+  const validatePhone = (value) => {
     if (!value) {
       return "Vui lòng nhập số điện thoại";
     }
@@ -65,7 +68,7 @@ function WithEmail({ isModal = false }) {
     const error = validatePhone(value);
     setPhoneError(error);
     setCanSendCode(!error);
-  }; 
+  };
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
@@ -75,7 +78,8 @@ function WithEmail({ isModal = false }) {
   const handleCodeChange = (e) => {
     const value = e.target.value;
     setVerificationCode(value);
-    setCodeError(validateCode(verificationCode));
+    const error = validateCode(value);
+    setCodeError(error);
   };
 
   const handleCountrySelect = (option) => {
@@ -87,6 +91,13 @@ function WithEmail({ isModal = false }) {
   const handleToggle = () => {
     setShowSelection((prev) => !prev);
   };
+
+  const handleFormTypeChange = (e,option) => {
+    if(isModal){
+      e.preventDefault();
+      dispatch(setFormType(option))
+    }
+  }
 
   // Kiểm tra xem có thể đăng nhập không
   const canLogin = () => {
@@ -115,14 +126,14 @@ function WithEmail({ isModal = false }) {
         <h2 className={clsx(styles.header)}>Đăng nhập</h2>
         <div
           className={clsx(styles.LoginOptionContainer)}
-          style={{ height: isModal ? "368px" : "416px" }}
+          style={{ height: isModal ? "unset" : "416px" }}
         >
           <div
             className={clsx(styles.divDescription)}
             style={{ width: isModal ? "336px" : "360px" }}
           >
             <label>Điện thoại</label>
-            <Link to={config.routes.loginemail} className={clsx(styles.link)}>
+            <Link to={config.routes.loginemail} className={clsx(styles.link)} onClick={(e) =>handleFormTypeChange(e,'login-email')}>
               Đăng nhập bằng email hoặc tên người dùng
             </Link>
           </div>
@@ -157,7 +168,9 @@ function WithEmail({ isModal = false }) {
               className={clsx(styles.inputWrapper)}
             />
           </div>
-          {phoneError && <span className={clsx(styles.error)}>{phoneError}</span>}
+          {phoneError && (
+            <span className={clsx(styles.error)}>{phoneError}</span>
+          )}
           <div className={clsx(styles.divInput)}>
             {isPassword ? (
               <>
@@ -185,7 +198,10 @@ function WithEmail({ isModal = false }) {
                   className={clsx(styles.inputWrapper)}
                   onChange={handleCodeChange}
                 />
-                <Button disabled={!canSendCode} className={clsx(styles.btnSendCode)}>
+                <Button
+                  disabled={!canSendCode}
+                  className={clsx(styles.btnSendCode)}
+                >
                   Gửi mã
                 </Button>
               </>
@@ -199,7 +215,7 @@ function WithEmail({ isModal = false }) {
           )}
           {isPassword && (
             <>
-              <button className={clsx(styles.link)}>Quên mật khẩu?</button>
+              <Link to={config.routes.resetwithphone} className={clsx(styles.link)} onClick={(e)=>handleFormTypeChange(e,"resetpass-phone")}>Quên mật khẩu?</Link>
               <span className={clsx(styles.splitLine)}></span>
             </>
           )}
@@ -215,12 +231,16 @@ function WithEmail({ isModal = false }) {
           >
             {isPassword ? "Đăng nhập bằng mã" : "Đăng nhập với Mật khẩu"}
           </button>
-          <Button disabled={!canLogin()} primary className={clsx(styles.btnLogin)}>
+          <Button
+            disabled={!canLogin()}
+            primary
+            className={clsx(styles.btnLogin)}
+          >
             Đăng nhập
           </Button>
 
           <div className={clsx(styles.back)}>
-            <Button to={"/login"} className={clsx(styles.btnBack)}>
+            <Button to={config.routes.login} className={clsx(styles.btnBack)} onClick={(e) =>handleFormTypeChange(e,'login')}>
               <FontAwesomeIcon
                 icon={faChevronLeft}
                 style={{ marginRight: "8px", marginBottom: "2px" }}
@@ -233,7 +253,7 @@ function WithEmail({ isModal = false }) {
       <div className={clsx(styles.divFooter)}>
         <div className={clsx(styles.divNote)}>
           <span>Bạn không có tài khoản?</span>
-          <Link to={"/signup"} className={clsx(styles.btnLink)}>
+          <Link to={config.routes.signup} className={clsx(styles.btnLink)} onClick={(e) => handleFormTypeChange(e,"signup")}>
             Đăng ký
           </Link>
         </div>
@@ -255,4 +275,4 @@ function WithEmail({ isModal = false }) {
   );
 }
 
-export default WithEmail;
+export default WithPhone;

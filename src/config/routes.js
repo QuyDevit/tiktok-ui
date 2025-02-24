@@ -11,7 +11,12 @@ const routes = {
     login:'/login', 
     loginphone:'/login/phone-or-email/phone', 
     loginemail:'/login/phone-or-email/email',
+    resetwithphone:'/login/phone/forget-password',
+    resetwithemail:'/login/email/forget-password',
     signup:'/signup', 
-    
+    signupphone:'/signup/phone-or-email/phone', 
+    signupemail:'/signup/phone-or-email/email', 
+    createusername:'/signup/create-username',
+    createdateofbirth:'/signup/create-birthdate',
 };
 export default routes;

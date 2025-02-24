@@ -16,22 +16,32 @@ import { HEADER_MENU_ITEMS, USER_MENU_ITEMS } from "./constants";
 import HeaderAction from "./HeaderAction";
 import HeaderMenu from "./HeaderMenu";
 import HeaderMobile from "./HeaderMobile";
+import { selectUser } from "~/store/features/authSlice";
+import { logoutuser } from "~/services/auth/logout";
+import * as authHelper from"~/helpers"
 
 export default function Header({ isFullWidth = false,setIsOpenModal  }) {
   const dispatch = useDispatch();
   const isDarkMode = useSelector(selectTheme);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const currentUser = false;
+  const currentUser =  useSelector(selectUser);
+  
   useEffect(() => {
     document.body.className = isDarkMode ? "darkMode" : "lightMode";
   }, [isDarkMode]);
 
-  const handleMenuChange = (menuItem) => {
+  const handleMenuChange = async(menuItem) => {
     if (menuItem.mode) {
       dispatch(setTheme(menuItem.mode));
     } else if (menuItem.code) {
       dispatch(setLanguage(menuItem.code));
+    } else if(menuItem.to === "/logout"){
+      const result = await logoutuser();
+      if(result.success){
+        authHelper.authcookie.clearRefreshToken();
+        window.location.reload();
+      }
     }
   };
   return (

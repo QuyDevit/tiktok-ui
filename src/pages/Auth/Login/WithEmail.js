@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "../Auth.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LogoIcon, QuestionIcon } from "~/components/Icons";
 import config from "~/config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +11,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "~/components/Button";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setFormType } from "~/store/features/formAuthSlice";
+import { authlogin } from "~/services/auth/login";
+import * as authHelper from"~/helpers"
+
 function WithEmail({ isModal = false }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isShowPass, setIsShowPass] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [password, setPassword] = useState("");
@@ -40,9 +47,34 @@ function WithEmail({ isModal = false }) {
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setPassword(value);
-    setPasswordError(validatePassword(password));
+    setPasswordError(validatePassword(value));
   };
 
+  const handleFormTypeChange = (e, option) => {
+    if (isModal) {
+      e.preventDefault();
+      dispatch(setFormType(option));
+    }
+  };
+  const handleKeyDown = (e) => {
+    if (e.key !== "Enter") return;
+    if (canLogin()) {
+      handleLogin();
+    } else {
+      e.preventDefault();
+    }
+  };
+  const handleLogin = async () => {
+    const result = await authlogin("email", inputValue, password);
+    if (result.success) {
+      authHelper.authcookie.setRefreshTokenExpiry();
+      if (!isModal) {
+        navigate(config.routes.home);
+      } else {
+        window.location.reload();
+      }
+    }
+  };
   const canLogin = () => {
     return inputValue && !emailError && password && !passwordError;
   };
@@ -64,16 +96,21 @@ function WithEmail({ isModal = false }) {
       )}
       <div className={clsx(styles.divPageWrapper)}>
         <h2 className={clsx(styles.header)}>Đăng nhập</h2>
-        <div
+        <form
           className={clsx(styles.LoginOptionContainer)}
-          style={{ height: isModal ? "368px" : "416px" }}
+          style={{ height: isModal ? "unset" : "416px" }}
+          onSubmit={e =>e.preventDefault()}
         >
           <div
             className={clsx(styles.divDescription)}
             style={{ width: isModal ? "336px" : "360px" }}
           >
             <label>Email hoặc TikTok ID</label>
-            <Link to={config.routes.loginphone} className={clsx(styles.link)}>
+            <Link
+              to={config.routes.loginphone}
+              className={clsx(styles.link)}
+              onClick={(e) => handleFormTypeChange(e, "login-phone")}
+            >
               Đăng nhập bằng số điện thoại
             </Link>
           </div>
@@ -84,6 +121,7 @@ function WithEmail({ isModal = false }) {
               value={inputValue}
               onChange={handleInputChange}
               className={clsx(styles.inputWrapper)}
+              onKeyDown={handleKeyDown}
             />
           </div>
           {emailError && (
@@ -97,29 +135,43 @@ function WithEmail({ isModal = false }) {
               onChange={handlePasswordChange}
               className={clsx(styles.inputWrapper)}
               style={{ paddingInlineEnd: "50px" }}
+              onKeyDown={handleKeyDown}
             />
             <button
+            type="button"
               onClick={() => setIsShowPass((prev) => !prev)}
               className={clsx(styles.iconPassword)}
             >
               <FontAwesomeIcon icon={isShowPass ? faEye : faEyeSlash} />
             </button>
           </div>
-          { passwordError && (
+          {passwordError && (
             <span className={clsx(styles.error)}>{passwordError}</span>
           )}
 
-          <button className={clsx(styles.link)}>Quên mật khẩu?</button>
+          <Link
+            to={config.routes.resetwithemail}
+            className={clsx(styles.link)}
+            onClick={(e) => handleFormTypeChange(e, "resetpass-phone")}
+          >
+            Quên mật khẩu?
+          </Link>
           <Button
             disabled={!canLogin()}
             primary
             className={clsx(styles.btnLogin)}
+            type="submit"
+            onClick={handleLogin}
           >
             Đăng nhập
           </Button>
 
           <div className={clsx(styles.back)}>
-            <Button to={"/login"} className={clsx(styles.btnBack)}>
+            <Button
+              to={config.routes.login}
+              className={clsx(styles.btnBack)}
+              onClick={(e) => handleFormTypeChange(e, "login")}
+            >
               <FontAwesomeIcon
                 icon={faChevronLeft}
                 style={{ marginRight: "8px", marginBottom: "2px" }}
@@ -127,12 +179,16 @@ function WithEmail({ isModal = false }) {
               Quay lại
             </Button>
           </div>
-        </div>
+        </form>
       </div>
       <div className={clsx(styles.divFooter)}>
         <div className={clsx(styles.divNote)}>
           <span>Bạn không có tài khoản?</span>
-          <Link to={"/signup"} className={clsx(styles.btnLink)}>
+          <Link
+            to={config.routes.signup}
+            className={clsx(styles.btnLink)}
+            onClick={(e) => handleFormTypeChange(e, "signup")}
+          >
             Đăng ký
           </Link>
         </div>

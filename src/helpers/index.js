@@ -37,13 +37,30 @@ export const formatters = {
     return `${diffInYears} năm trước`;
   },
   formatNumber: (num) => {
-    if (num >= 1e9) {
-      return (num / 1e9).toFixed(1) + "B";
-    } else if (num >= 1e6) {
-      return (num / 1e6).toFixed(1) + "M";
-    } else if (num >= 1e3) {
-      return (num / 1e3).toFixed(1) + "K"; 
+    const units = [
+      { value: 1e9, suffix: "B" },
+      { value: 1e6, suffix: "M" },
+      { value: 1e3, suffix: "K" },
+    ];
+
+    for (const { value, suffix } of units) {
+      if (num >= value) {
+        return (num / value).toFixed(1).replace(/\.0$/, "") + suffix;
+      }
     }
-    return num;
+    return num.toString();
+  },
+};
+export const authcookie = {
+  hasValidRefreshToken: () => {
+    const expiryTime = parseInt(localStorage.getItem("hasRefreshtoken"), 10);
+    return !isNaN(expiryTime) && Date.now() < expiryTime;
+  },
+  setRefreshTokenExpiry: (days = 7) => {
+    const expiryTime = Date.now() + days * 24 * 60 * 60 * 1000;
+    localStorage.setItem("hasRefreshtoken", expiryTime.toString());
+  },
+  clearRefreshToken: () => {
+    localStorage.removeItem("hasRefreshtoken");
   },
 };
