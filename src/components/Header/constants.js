@@ -43,11 +43,11 @@ export const HEADER_MENU_ITEMS = [
   }
 ];
 
-export const USER_MENU_ITEMS = [
+export const USER_MENU_ITEMS= (currentUser) => [
   {
     icon: <FontAwesomeIcon icon={faUser} />,
     title: "Hồ sơ",
-    to: "/profile"
+    to: `/@${currentUser?.nickname}`
   },
   {
     icon: <FontAwesomeIcon icon={faCoins} />,

@@ -10,7 +10,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { useDebounce } from "~/hooks";
 import * as searchServices from "~/services/searchService";
+import {  useNavigate } from "react-router-dom";
+
 function Search() {
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
@@ -25,13 +28,13 @@ function Search() {
       return;
     }
 
-    const fetchApi = async () =>{
+    const fetchApi = async () => {
       setLoading(true);
       const result = await searchServices.search(debouncedValue);
       setSearchResult(result);
       setLoading(false);
-    }
-    
+    };
+
     fetchApi();
   }, [debouncedValue]);
 
@@ -51,6 +54,11 @@ function Search() {
       setSearchValue(e.target.value);
     }
   };
+  const handleSearch =() =>{
+    if (!searchValue.trim()) return;
+    setShowResult(false);
+    navigate("/search?q=" + searchValue);
+  }
   return (
     //Using a wrapper <div> or <span> tag around the reference element solves this by creating a new parentNode context.
     <div>
@@ -62,8 +70,18 @@ function Search() {
             <PopperWrapper>
               <h4 className={clsx(styles.searchTitle)}>Accounts</h4>
               {searchResult.map((result) => (
-                <AccountItem key={result.id} data={result} onClick={() => setShowResult(false)}/>
+                <AccountItem
+                  key={result.id}
+                  data={result}
+                  onClick={() => setShowResult(false)}
+                />
               ))}
+              <button
+                className={clsx(styles.viewAll)}
+                onClick={handleSearch}
+              >
+                <span>Xem tất cả các kết quả cho "{searchValue}"</span>
+              </button>
             </PopperWrapper>
           </div>
         )}
@@ -96,8 +114,11 @@ function Search() {
               />
             </span>
           )}
-  
-          <button className={clsx(styles.searchBtn)} onMouseDown={e =>e.preventDefault()}>
+
+          <button
+            className={clsx(styles.searchBtn)}
+            onMouseDown={(e) => e.preventDefault()}
+          >
             <SearchIcon
               width="2.4rem"
               height="2.4rem"

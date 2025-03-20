@@ -1,0 +1,124 @@
+.container {
+  padding: 0 6px;
+}
+.header {
+  display: flex;
+  position: sticky;
+  top: 60px;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.06);
+    transition: scaleY(0.5);
+  }
+}
+.tabItem {
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 24px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding-right: 80px;
+  cursor: pointer;
+  text-align: center;
+  color: #73747b;
+  gap: 4px;
+  &.active {
+    color: rgb(22, 24, 35);
+  }
+}
+.divBottomLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: rgb(22, 24, 35);
+  bottom: 0px;
+  width: 137px;
+  transition: width 0.3s, transform 0.3s;
+}
+.divBlockContainer {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+}
+.titleContainer {
+  height: 30px;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  h2 {
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+}
+.divItemContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.divAvatar {
+  padding: 0;
+  min-width: unset;
+  height: 60px;
+  width: 60px;
+  margin: 16px 16px 16px 0px;
+  border-radius: 50%;
+  border-color: rgba(22, 24, 35, 0.12);
+  overflow: hidden;
+}
+.image {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+}
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+}
+.nickname {
+  display: flex;
+  align-items: center;
+
+  span {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+}
+.check {
+  margin-left: 6px;
+  color: #20d5ec;
+  font-size: 1.8rem;
+}
+
+.subInfo {
+  display: flex;
+  align-items: center;
+
+  span {
+    color: rgba(22, 24, 35, 0.75);
+    font-size: 1.4rem;
+  }
+  strong {
+    margin: 0 4px;
+    font-size: 1.4rem;
+  }
+}
+.description {
+  font-size: 1.4rem;
+  padding-top: 4px;
+}
+.divFollowBtn{
+    position: absolute;
+    top: 8px;
+    z-index: 1;
+    margin-top: 16px;
+    right: 0px;
+}

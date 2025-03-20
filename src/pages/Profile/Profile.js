@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import styles from "./Profile.module.scss";
 import Image from "~/components/Image";
@@ -9,13 +9,20 @@ import {
   LinkIcon,
   MoreIcon,
   MyVideoIcon,
-  PlaceholderIcon,
+  SettingIcon,
   ShareIconProfile,
+  UserIcon,
   VideoFavoritIcon,
   VideoLikedIcon,
 } from "~/components/Icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProfileVideo from "./ProfileVideo";
+import * as getInfo from "~/services/users/getInfoUser";
+import * as helpers from "~/helpers";
+import { useSelector } from "react-redux";
+import { selectUser } from "~/store/features/authSlice";
+import EditProfileModal from "./EditProfileModal/EditProfileModal";
+import routes, { pagesTitle } from "~/config/routes";
 
 const options = ["Mới nhất", "Thịnh hành", "Cũ nhất"];
 const tabs = [
@@ -39,66 +46,135 @@ const tabs = [
   },
 ];
 export default function Profile() {
+  const { nickname } = useParams();
+  const currentUser = useSelector(selectUser);
+
+  const [account, setAccount] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [activeSort, setActiveSort] = useState(0);
   const [activetTab, setActiveTab] = useState(0);
   const [hoverTab, setHoverTab] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
 
   const currentIndex = hoverTab !== null ? hoverTab : activetTab;
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchApi = async () => {
+      const result = await getInfo.getInfoAccount(nickname.replace(/^@/, ""));
+      setAccount(result.data);
+      setLoading(false);
+    };
+    fetchApi();
+  }, [nickname, currentUser]);
+
+  useEffect(() => {
+    if (!account) return;
+    const title = pagesTitle[routes.profile];
+    document.title = title(`${account.fullName}`, account.nickname);
+  }, [account]);
+
+  if (loading) return <h2>Đang tải</h2>;
+
+  const isCurrentUser = currentUser
+    ? currentUser && currentUser.nickname === account?.nickname
+    : false;
+
+  if (!account)
+    return (
+      <div className={clsx(styles.userEmpty)}>
+        <UserIcon width="6rem" height="6rem" />
+        <h2>Không thể tìm thấy tài khoản này.</h2>
+      </div>
+    );
+
   return (
     <div className={clsx(styles.container)}>
+      {isCurrentUser && (
+        <EditProfileModal
+          isOpen={openModal}
+          onClose={setOpenModal}
+          currentUser={currentUser}
+        />
+      )}
+
       <div className={clsx(styles.layoutHeader)}>
         <div className={clsx(styles.avatarWrapper)}>
           <Image
             className={clsx(styles.imgAvatar)}
-            src="https://p16-sign-sg.tiktokcdn.com/aweme/1080x1080/tos-alisg-avt-0068/ad715e344a62c6ac764ad85e79610f8f.jpeg?lk3s=a5d48078&nonce=59297&refresh_token=8dca8cbdbb0145dcf32b1f13125d406c&x-expires=1738810800&x-signature=A6cBc9EVE7T1sj4V2rnPAGAFiEI%3D&shp=a5d48078&shcp=81f88b70" alt=""
+            src={account?.avatar}
+            alt=""
           />
         </div>
         <div className={clsx(styles.creatorPage)}>
           <div className={clsx(styles.divUserNameWrapper)}>
             <div className={clsx(styles.userText)}>
-              <h1 className={clsx(styles.userid)}>boss.phuonganh</h1>
-              <FontAwesomeIcon
-                className={clsx(styles.check)}
-                icon={faCheckCircle}
-              />
+              <h1 className={clsx(styles.userid)}>{account?.nickname}</h1>
+              {account?.tick && (
+                <FontAwesomeIcon
+                  className={clsx(styles.check)}
+                  icon={faCheckCircle}
+                />
+              )}
             </div>
             <div className={clsx(styles.userSubTitle)}>
-              <h2 className={clsx(styles.name)}>Phương Anh</h2>
+              <h2 className={clsx(styles.name)}>{account?.fullName}</h2>
             </div>
           </div>
           <div className={clsx(styles.divUserPanelWrapper)}>
-            <Button primary>Theo dõi</Button>
-            <Button className={clsx(styles.btn)}>Tin nhắn</Button>
-            <Button className={clsx(styles.btnIcon)}>
-              <ShareIconProfile width="1.9rem" height="1.9rem" />
-            </Button>
-            <Button className={clsx(styles.btnIcon)}>
-              <MoreIcon width="1.9rem" height="1.9rem" />
-            </Button>
+            {isCurrentUser ? (
+              <>
+                <Button primary onClick={() => setOpenModal(true)}>
+                  Sửa hồ sơ
+                </Button>
+                <Button className={clsx(styles.btn)}>Quảng bá bài đăng</Button>
+                <Button className={clsx(styles.btnIcon)}>
+                  <SettingIcon width="1.9rem" height="1.9rem" />
+                </Button>
+                <Button className={clsx(styles.btnIcon)}>
+                  <ShareIconProfile width="1.9rem" height="1.9rem" />
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button primary>Theo dõi</Button>
+                <Button className={clsx(styles.btn)}>Tin nhắn</Button>
+                <Button className={clsx(styles.btnIcon)}>
+                  <ShareIconProfile width="1.9rem" height="1.9rem" />
+                </Button>
+                <Button className={clsx(styles.btnIcon)}>
+                  <MoreIcon width="1.9rem" height="1.9rem" />
+                </Button>
+              </>
+            )}
           </div>
           <div className={clsx(styles.divUserInfoWrapper)}>
             <h3 className={clsx(styles.countInfos)}>
               <div className={styles.divValue}>
-                <strong className={clsx(styles.textValue)}>9</strong>
+                <strong className={clsx(styles.textValue)}>
+                  {helpers.formatters.formatNumber(account.followingsCount)}
+                </strong>
                 <span className={clsx(styles.title)}>Đang Follow</span>
               </div>
               <div className={styles.divValue}>
-                <strong className={clsx(styles.textValue)}>875.5K</strong>
+                <strong className={clsx(styles.textValue)}>
+                  {helpers.formatters.formatNumber(account.followersCount)}
+                </strong>
                 <span className={clsx(styles.title)}>Follower</span>
               </div>
               <div className={styles.divValue}>
-                <strong className={clsx(styles.textValue)}>15.9M</strong>
+                <strong className={clsx(styles.textValue)}>
+                  {helpers.formatters.formatNumber(account.likesCount)}
+                </strong>
                 <span className={clsx(styles.title)}>Thích</span>
               </div>
             </h3>
-            <h2 className={clsx(styles.description)}>
-              LIÊN HỆ PHƯƠNG ANH TẠI ĐÂY 👇🏻
-            </h2>
+            <h2 className={clsx(styles.description)}>{account?.bio}</h2>
             <div className={clsx(styles.bioWrapper)}>
               <Link to={"/following"} className={clsx(styles.bioLink)}>
                 <LinkIcon width="1.8rem" height="1.8rem" />
                 <span className={clsx(styles.link)}>
-                  https://www.tiktok.com/
+                  https://www.tiktokclone.hoi/
                 </span>
               </Link>
             </div>
@@ -146,7 +222,7 @@ export default function Profile() {
           </div>
         </div>
         <main className={clsx(styles.mainDetailWrapper)}>
-          <ProfileVideo tab={activetTab}/>
+          <ProfileVideo tab={activetTab} />
         </main>
       </div>
     </div>

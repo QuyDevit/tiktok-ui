@@ -6,13 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
 export default function HeaderMenu({ currentUser, menuItems, handleMenuChange }) {
-  // console.log("HeaderMenu menuItems:", menuItems.length, menuItems);
   return (
     <Menu items={menuItems} onChange={handleMenuChange}>
       {currentUser ? (
         <Image
           className={clsx(styles.userAvatar)}
-          src={currentUser.avatar}
+          src={currentUser?.avatar}
           alt="User Avatar"
         />
       ) : (

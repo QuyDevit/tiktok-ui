@@ -4,7 +4,7 @@ import styles from "./Menu.module.scss";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 import MenuItem from "./MenuItem";
 import Header from "./Header";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { selectTheme } from "~/store/features/themeSlice";
@@ -17,6 +17,7 @@ function Menu({
   hideOnClick = false,
   onChange = defaultFn,
 }) {
+  const tippyRef = useRef();
   const isDarkMode = useSelector(selectTheme);
   const currentLanguage = useSelector(selectLanguage);
   const [history, setHistory] = useState([{ data: items, title: null }]);
@@ -24,7 +25,7 @@ function Menu({
   useEffect(() => {
     setHistory([{ data: items, title: null }]);
   }, [items]);
-  
+
   const renderItems = () => {
     return current.data.map((item, index) => {
       const isParent = !!item.children;
@@ -45,6 +46,9 @@ function Menu({
               setHistory((prev) => [...prev, item.children]);
             } else {
               onChange(item);
+              if (item.to && tippyRef.current) {
+                tippyRef.current.hide();
+              }
             }
           }}
         ></MenuItem>
@@ -74,6 +78,7 @@ function Menu({
 
   return (
     <Tippy
+      onCreate={(instance) => (tippyRef.current = instance)}
       interactive
       hideOnClick={hideOnClick}
       delay={[0, 700]}

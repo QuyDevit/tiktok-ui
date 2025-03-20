@@ -2,6 +2,7 @@ import {apiCall2} from "~/untils/httpRequest"
 
 export const API_ENDPOINTS = {
     UPDATE_NICKNAME_ENDPOINT:"user/updatename",
+    UPDATE_PROFILE_ENDPOINT:"user/updateinfo",
 };
 
 export const updateNickname = async (nickname)=>{
@@ -13,3 +14,15 @@ export const updateNickname = async (nickname)=>{
         throw error;
     }
 }
+
+export const updateInfo = async (formData) => {
+    try {
+        const response = await apiCall2("PATCH", API_ENDPOINTS.UPDATE_PROFILE_ENDPOINT, formData, {
+            "Content-Type": "multipart/form-data" 
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};

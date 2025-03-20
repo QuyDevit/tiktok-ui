@@ -54,7 +54,19 @@
     background-color: rgba(22, 24, 35, 0.06);
   }
 }
-
+.viewAll {
+  background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 15px 16px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 600;
+  &:hover {
+    background: rgba(22, 24, 35, 0.03);
+  }
+}
 .clear, .loading {
   position: absolute;
   right: calc(var(--search-button-width) + 16px);

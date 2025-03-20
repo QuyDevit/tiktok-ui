@@ -28,6 +28,7 @@ import * as suggestService from "~/services/suggestAccountService";
 import { refreshHome } from "~/store/features/homeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "~/store/features/authSlice";
+import {  setOpenForm } from "~/store/features/formAuthSlice";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
@@ -107,11 +108,16 @@ export default function Sidebar() {
 
         <MenuItem
           title={"Hồ sơ"}
-          to={config.routes.profile}
+          to={`/@${currentUser ?currentUser?.nickname : ""}`}
+          onClick={(e) => {
+            if(!currentUser){
+              e.preventDefault();
+              dispatch(setOpenForm(true));
+          }}}
           icon={
             currentUser ? (
               <Image
-                src={currentUser.avatar}
+                src={currentUser?.avatar}
                 className={clsx(styles.userAvatar)}
               />
             ) : (

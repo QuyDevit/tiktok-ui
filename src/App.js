@@ -8,6 +8,7 @@ import Loading from "./components/Loading";
 import * as userService from "~/services/users/getInfoUser";
 import { selectUser, setUser } from "./store/features/authSlice";
 import * as authHelper from"~/helpers"
+import Alert from "./components/Alert/Alert";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <Alert />
         {isLoading && <Loading />}
 
         <Routes>

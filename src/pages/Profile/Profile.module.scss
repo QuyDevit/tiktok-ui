@@ -4,7 +4,6 @@
   padding: 18px 4px 36px;
   align-items: center;
   flex-direction: column;
-  margin-left:-28px;
 }
 .layoutHeader {
   position: relative;
@@ -264,6 +263,14 @@
     font-weight: 700;
     margin-top: 24px;
     line-height: 30px;
+}
+.userEmpty{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 490px;
+  gap: 10px;
 }
 .emptyNote{
     font-size: 1.6rem;

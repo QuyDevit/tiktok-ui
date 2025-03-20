@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "../Auth.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LogoIcon, QuestionIcon } from "~/components/Icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,25 +10,33 @@ import {
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "~/components/Button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PhoneCountrySelect from "~/components/PhoneCountrySelect";
 import config from "~/config";
 import { useDispatch } from "react-redux";
 import { setFormType } from "~/store/features/formAuthSlice";
+import { sendotp, authlogin } from "~/services/auth/login";
+import * as authHelper from "~/helpers";
+
 function WithPhone({ isModal = false }) {
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [countdown, setCountdown] = useState(60);
   const [isPassword, setIsPassword] = useState(false);
   const [isShowPass, setIsShowPass] = useState(false);
   const [showSelection, setShowSelection] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [password, setPassword] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
+  const [canSendCode, setCanSendCode] = useState(false);
+
+  const timerRef = useRef(null);
 
   // Error states
   const [phoneError, setPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [codeError, setCodeError] = useState("");
-  const [canSendCode, setCanSendCode] = useState(false);
+  const [reponesmessage, setReponesMessage] = useState("");
 
   const [selectedCountry, setSelectedCountry] = useState({
     name: "Vietnam (+84)",
@@ -62,6 +70,20 @@ function WithPhone({ isModal = false }) {
     }
   };
 
+  const startCountdown = () => {
+    setCanSendCode(false);
+    timerRef.current = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current);
+          setCanSendCode(true);
+          return 60;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
@@ -73,7 +95,7 @@ function WithPhone({ isModal = false }) {
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setPassword(value);
-    setPasswordError(validatePassword(password));
+    setPasswordError(validatePassword(value));
   };
   const handleCodeChange = (e) => {
     const value = e.target.value;
@@ -92,12 +114,48 @@ function WithPhone({ isModal = false }) {
     setShowSelection((prev) => !prev);
   };
 
-  const handleFormTypeChange = (e,option) => {
-    if(isModal){
+  const handleFormTypeChange = (e, option) => {
+    if (isModal) {
       e.preventDefault();
-      dispatch(setFormType(option))
+      dispatch(setFormType(option));
     }
-  }
+  };
+
+  const handleLoginOtp = () => {
+    startCountdown();
+    const fetchApi = async () => {
+      const result = await sendotp(inputValue);
+      if (!result.success) {
+        clearInterval(timerRef.current);
+        setCanSendCode(true);
+        setCountdown(60);
+      }
+      setReponesMessage(`${result.message}  ${result.data ? `--- ${result.data}` : ""}`);
+    };
+    fetchApi();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key !== "Enter") return;
+    if (canLogin()) {
+      handleLogin();
+    } else {
+      e.preventDefault();
+    }
+  };
+  const handleLogin = async () => {
+    const result = await authlogin("phone", inputValue,isPassword ? password : verificationCode,isPassword ? false : true);
+    if (result.success) {
+      authHelper.authcookie.setRefreshTokenExpiry();
+      if (!isModal) {
+        navigate(config.routes.home);
+      } else {
+        window.location.reload();
+      }
+    }else{
+      setReponesMessage(result.message)
+    }
+  };
 
   // Kiểm tra xem có thể đăng nhập không
   const canLogin = () => {
@@ -124,16 +182,21 @@ function WithPhone({ isModal = false }) {
       )}
       <div className={clsx(styles.divPageWrapper)}>
         <h2 className={clsx(styles.header)}>Đăng nhập</h2>
-        <div
+        <form
           className={clsx(styles.LoginOptionContainer)}
           style={{ height: isModal ? "unset" : "416px" }}
+          onSubmit={(e) => e.preventDefault()}
         >
           <div
             className={clsx(styles.divDescription)}
             style={{ width: isModal ? "336px" : "360px" }}
           >
             <label>Điện thoại</label>
-            <Link to={config.routes.loginemail} className={clsx(styles.link)} onClick={(e) =>handleFormTypeChange(e,'login-email')}>
+            <Link
+              to={config.routes.loginemail}
+              className={clsx(styles.link)}
+              onClick={(e) => handleFormTypeChange(e, "login-email")}
+            >
               Đăng nhập bằng email hoặc tên người dùng
             </Link>
           </div>
@@ -166,6 +229,7 @@ function WithPhone({ isModal = false }) {
               value={inputValue}
               onChange={handleInputChange}
               className={clsx(styles.inputWrapper)}
+              onKeyDown={handleKeyDown}
             />
           </div>
           {phoneError && (
@@ -181,8 +245,10 @@ function WithPhone({ isModal = false }) {
                   onChange={handlePasswordChange}
                   className={clsx(styles.inputWrapper)}
                   style={{ paddingInlineEnd: "50px" }}
+                  onKeyDown={handleKeyDown}
                 />
                 <button
+                  type="button"
                   onClick={() => setIsShowPass((prev) => !prev)}
                   className={clsx(styles.iconPassword)}
                 >
@@ -197,12 +263,15 @@ function WithPhone({ isModal = false }) {
                   placeholder="Nhập mã gồm 6 chữ số"
                   className={clsx(styles.inputWrapper)}
                   onChange={handleCodeChange}
+                  onKeyDown={handleKeyDown}
                 />
                 <Button
+                  type="button"
                   disabled={!canSendCode}
                   className={clsx(styles.btnSendCode)}
+                  onClick={handleLoginOtp}
                 >
-                  Gửi mã
+                  {countdown < 60 ? `${countdown}s` : "Gửi mã"}
                 </Button>
               </>
             )}
@@ -213,9 +282,18 @@ function WithPhone({ isModal = false }) {
           {!isPassword && codeError && (
             <span className={clsx(styles.error)}>{codeError}</span>
           )}
+          {reponesmessage && (
+            <span className={clsx(styles.error)}>{reponesmessage}</span>
+          )}
           {isPassword && (
             <>
-              <Link to={config.routes.resetwithphone} className={clsx(styles.link)} onClick={(e)=>handleFormTypeChange(e,"resetpass-phone")}>Quên mật khẩu?</Link>
+              <Link
+                to={config.routes.resetwithphone}
+                className={clsx(styles.link)}
+                onClick={(e) => handleFormTypeChange(e, "resetpass-phone")}
+              >
+                Quên mật khẩu?
+              </Link>
               <span className={clsx(styles.splitLine)}></span>
             </>
           )}
@@ -232,15 +310,21 @@ function WithPhone({ isModal = false }) {
             {isPassword ? "Đăng nhập bằng mã" : "Đăng nhập với Mật khẩu"}
           </button>
           <Button
+            type="submit"
             disabled={!canLogin()}
             primary
             className={clsx(styles.btnLogin)}
+            onClick={handleLogin}
           >
             Đăng nhập
           </Button>
 
           <div className={clsx(styles.back)}>
-            <Button to={config.routes.login} className={clsx(styles.btnBack)} onClick={(e) =>handleFormTypeChange(e,'login')}>
+            <Button
+              to={config.routes.login}
+              className={clsx(styles.btnBack)}
+              onClick={(e) => handleFormTypeChange(e, "login")}
+            >
               <FontAwesomeIcon
                 icon={faChevronLeft}
                 style={{ marginRight: "8px", marginBottom: "2px" }}
@@ -248,12 +332,16 @@ function WithPhone({ isModal = false }) {
               Quay lại
             </Button>
           </div>
-        </div>
+        </form>
       </div>
       <div className={clsx(styles.divFooter)}>
         <div className={clsx(styles.divNote)}>
           <span>Bạn không có tài khoản?</span>
-          <Link to={config.routes.signup} className={clsx(styles.btnLink)} onClick={(e) => handleFormTypeChange(e,"signup")}>
+          <Link
+            to={config.routes.signup}
+            className={clsx(styles.btnLink)}
+            onClick={(e) => handleFormTypeChange(e, "signup")}
+          >
             Đăng ký
           </Link>
         </div>

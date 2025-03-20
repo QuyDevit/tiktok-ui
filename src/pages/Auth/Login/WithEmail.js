@@ -14,17 +14,19 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setFormType } from "~/store/features/formAuthSlice";
 import { authlogin } from "~/services/auth/login";
-import * as authHelper from"~/helpers"
+import * as authHelper from "~/helpers";
 
 function WithEmail({ isModal = false }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isShowPass, setIsShowPass] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [password, setPassword] = useState("");
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [reponesMessage, setReponesMessage] = useState("");
 
   const validateEmail = (value) => {
     if (!value) {
@@ -65,6 +67,9 @@ function WithEmail({ isModal = false }) {
     }
   };
   const handleLogin = async () => {
+    if (isLoggingIn) return; 
+
+    setIsLoggingIn(true);
     const result = await authlogin("email", inputValue, password);
     if (result.success) {
       authHelper.authcookie.setRefreshTokenExpiry();
@@ -73,7 +78,10 @@ function WithEmail({ isModal = false }) {
       } else {
         window.location.reload();
       }
+    } else {
+      setReponesMessage(result.message);
     }
+    setIsLoggingIn(false);
   };
   const canLogin = () => {
     return inputValue && !emailError && password && !passwordError;
@@ -99,7 +107,7 @@ function WithEmail({ isModal = false }) {
         <form
           className={clsx(styles.LoginOptionContainer)}
           style={{ height: isModal ? "unset" : "416px" }}
-          onSubmit={e =>e.preventDefault()}
+          onSubmit={(e) => e.preventDefault()}
         >
           <div
             className={clsx(styles.divDescription)}
@@ -121,7 +129,6 @@ function WithEmail({ isModal = false }) {
               value={inputValue}
               onChange={handleInputChange}
               className={clsx(styles.inputWrapper)}
-              onKeyDown={handleKeyDown}
             />
           </div>
           {emailError && (
@@ -138,7 +145,7 @@ function WithEmail({ isModal = false }) {
               onKeyDown={handleKeyDown}
             />
             <button
-            type="button"
+              type="button"
               onClick={() => setIsShowPass((prev) => !prev)}
               className={clsx(styles.iconPassword)}
             >
@@ -147,6 +154,9 @@ function WithEmail({ isModal = false }) {
           </div>
           {passwordError && (
             <span className={clsx(styles.error)}>{passwordError}</span>
+          )}
+          {reponesMessage && (
+            <span className={clsx(styles.error)}>{reponesMessage}</span>
           )}
 
           <Link

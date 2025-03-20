@@ -4,17 +4,19 @@ import styles from "./AuthModal.module.scss";
 import clsx from "clsx";
 import Auth from "~/pages/Auth";
 import { useDispatch, useSelector } from "react-redux";
-import { selectformType, setFormType } from "~/store/features/formAuthSlice";
+import { selectformType, setFormType, setOpenForm } from "~/store/features/formAuthSlice";
 import { WithEmail, WithPhone, ResetPassword } from "~/pages/Auth/Login";
 import { SignupEmail, SignupPhone, CreateName } from "~/pages/Auth/Signup";
 import { useEffect } from "react";
 
-function AuthModal({ isOpen, onClose }) {
+function AuthModal({ isOpen }) {
   const dispatch = useDispatch();
   const currentForm = useSelector(selectformType);
   useEffect(() => {
-    dispatch(setFormType("login"));
-  }, [onClose]);
+    if (!isOpen) {
+      dispatch(setFormType("login"));
+    }
+  }, [isOpen]);
 
   const renderForm = () => {
     switch (currentForm) {
@@ -48,7 +50,7 @@ function AuthModal({ isOpen, onClose }) {
       // onClose={onClose}
       className={clsx(styles.container)}
     >
-      <button className={clsx(styles.closeBtn)} onClick={onClose}>
+      <button className={clsx(styles.closeBtn)} onClick={() => dispatch(setOpenForm(false))}>
         <CloseIcon width="2.55rem" height="2.55rem" />
       </button>
       {renderForm()}

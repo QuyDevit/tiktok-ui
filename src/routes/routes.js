@@ -2,7 +2,7 @@ import Home from "~/pages/Home/";
 import Following from "~/pages/Following";
 import Profile from "~/pages/Profile/Profile";
 import Upload from "~/pages/Upload";
-import Search from "~/pages/Search";
+import Search from "~/pages/Search/Search";
 import Live from "~/pages/Live";
 import Friend from "~/pages/Friend";
 import Explore from "~/pages/Explore";
@@ -19,7 +19,7 @@ const publicRoutes = [
   { path: config.routes.home, component: Home },
   { path: config.routes.following, component: Following,isFullWidth: true },
   { path: config.routes.upload, component: Upload, layout: HeaderOnly },
-  { path: config.routes.search, component: Search, layout: null },
+  { path: config.routes.search, component: Search },
   { path: config.routes.profile, component: Profile ,isFullWidth: true},
   { path: config.routes.live, component: Live ,isFullWidth: true},
   { path: config.routes.friend, component: Friend ,isFullWidth: true},

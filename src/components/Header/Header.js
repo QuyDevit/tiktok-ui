@@ -3,9 +3,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import "tippy.js/dist/tippy.css";
 import styles from "./Header.module.scss";
-import {
-  LogoIcon,
-} from "~/components/Icons";
+import { LogoIcon } from "~/components/Icons";
 import Search from "../Search";
 import config from "~/config";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,27 +16,27 @@ import HeaderMenu from "./HeaderMenu";
 import HeaderMobile from "./HeaderMobile";
 import { selectUser } from "~/store/features/authSlice";
 import { logoutuser } from "~/services/auth/logout";
-import * as authHelper from"~/helpers"
+import * as authHelper from "~/helpers";
 
-export default function Header({ isFullWidth = false,setIsOpenModal  }) {
+export default function Header({ isFullWidth = false }) {
   const dispatch = useDispatch();
   const isDarkMode = useSelector(selectTheme);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const currentUser =  useSelector(selectUser);
-  
+  const currentUser = useSelector(selectUser);
+
   useEffect(() => {
     document.body.className = isDarkMode ? "darkMode" : "lightMode";
   }, [isDarkMode]);
 
-  const handleMenuChange = async(menuItem) => {
+  const handleMenuChange = async (menuItem) => {
     if (menuItem.mode) {
       dispatch(setTheme(menuItem.mode));
     } else if (menuItem.code) {
       dispatch(setLanguage(menuItem.code));
-    } else if(menuItem.to === "/logout"){
+    } else if (menuItem.to === "/logout") {
       const result = await logoutuser();
-      if(result.success){
+      if (result.success) {
         authHelper.authcookie.clearRefreshToken();
         window.location.reload();
       }
@@ -57,10 +55,13 @@ export default function Header({ isFullWidth = false,setIsOpenModal  }) {
 
         <Search />
 
-        <HeaderAction currentUser={currentUser} setIsOpenModal={setIsOpenModal} isMobile={false}>
+        <HeaderAction
+          currentUser={currentUser}
+          isMobile={false}
+        >
           <HeaderMenu
             currentUser={currentUser}
-            menuItems={currentUser ? USER_MENU_ITEMS : HEADER_MENU_ITEMS}
+            menuItems={currentUser ? USER_MENU_ITEMS(currentUser) : HEADER_MENU_ITEMS}
             handleMenuChange={handleMenuChange}
           />
         </HeaderAction>
@@ -69,11 +70,10 @@ export default function Header({ isFullWidth = false,setIsOpenModal  }) {
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
           currentUser={currentUser}
-          setIsOpenModal={setIsOpenModal}
         >
           <HeaderMenu
             currentUser={currentUser}
-            menuItems={currentUser ? USER_MENU_ITEMS : HEADER_MENU_ITEMS}
+            menuItems={currentUser ? USER_MENU_ITEMS(currentUser) : HEADER_MENU_ITEMS}
             handleMenuChange={handleMenuChange}
           />
         </HeaderMobile>

@@ -3,7 +3,7 @@ import styles from "./Header.module.scss";
 import { MeunuIcon, CloseIcon } from "~/components/Icons";
 import HeaderActions from "./HeaderAction";
 
-export default function HeaderMobile({ isMenuOpen, setIsMenuOpen, currentUser, setIsOpenModal,children }) {
+export default function HeaderMobile({ isMenuOpen, setIsMenuOpen, currentUser,children }) {
   const handleMenuOpen = () => setIsMenuOpen(true);
   const handleMenuClose = () => setIsMenuOpen(false);
 
@@ -17,7 +17,7 @@ export default function HeaderMobile({ isMenuOpen, setIsMenuOpen, currentUser, s
         <button className={styles.closeMenu} onClick={handleMenuClose}>
           <CloseIcon />
         </button>
-        <HeaderActions currentUser={currentUser} setIsOpenModal={setIsOpenModal} isMobile={true}/>
+        <HeaderActions currentUser={currentUser} isMobile={true}/>
         {children}
       </div>
       
