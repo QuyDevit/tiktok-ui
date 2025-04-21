@@ -21,7 +21,7 @@ import * as getInfo from "~/services/users/getInfoUser";
 import * as helpers from "~/helpers";
 import { useSelector } from "react-redux";
 import { selectUser } from "~/store/features/authSlice";
-import EditProfileModal from "./EditProfileModal/EditProfileModal";
+import EditProfileModal from "./EditProfileModal";
 import routes, { pagesTitle } from "~/config/routes";
 
 const options = ["Mới nhất", "Thịnh hành", "Cũ nhất"];

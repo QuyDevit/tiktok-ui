@@ -6,6 +6,7 @@
   position: fixed;
   height: 100vh;
   z-index: 1;
+  background: var(--white);
   &:not(:hover)::-webkit-scrollbar-thumb {
     background: transparent;
   }
@@ -75,6 +76,7 @@
     color: var(--light-flat-3);
   }
   .wrapper {
+    background: var(--dark);
     &::-webkit-scrollbar-thumb {
       border-radius: 4px;
       background-color: rgba(129, 129, 129, 0.06);

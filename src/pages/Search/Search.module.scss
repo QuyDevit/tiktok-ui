@@ -1,10 +1,14 @@
 .container {
   padding: 0 6px;
+  margin-top: -20px;
 }
 .header {
   display: flex;
   position: sticky;
+  padding-top: 8px;
   top: 60px;
+  z-index: 5;
+  background-color: var(--white);
   &::after {
     content: "";
     position: absolute;
@@ -59,66 +63,24 @@
     font-weight: bold;
   }
 }
-.divItemContainer {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-.divAvatar {
-  padding: 0;
-  min-width: unset;
-  height: 60px;
-  width: 60px;
-  margin: 16px 16px 16px 0px;
-  border-radius: 50%;
-  border-color: rgba(22, 24, 35, 0.12);
-  overflow: hidden;
-}
-.image {
-  height: 60px;
-  width: 60px;
-  object-fit: cover;
-}
-.infoWrapper {
-  display: flex;
-  flex-direction: column;
-}
-.nickname {
-  display: flex;
-  align-items: center;
-
-  span {
-    font-size: 1.8rem;
-    font-weight: bold;
+:global(body.darkMode) {
+  .tabItem {
+    &.active {
+      color: var(--white);
+    }
+  }
+  .divBottomLine {
+    background: var(--dark-flat-3);
   }
 }
-.check {
-  margin-left: 6px;
-  color: #20d5ec;
-  font-size: 1.8rem;
+.shortVideoWrapper{
+  display: flex;
+  flex-wrap: wrap;
 }
-
-.subInfo {
+.divEmpty{
   display: flex;
   align-items: center;
-
-  span {
-    color: rgba(22, 24, 35, 0.75);
-    font-size: 1.4rem;
-  }
-  strong {
-    margin: 0 4px;
-    font-size: 1.4rem;
-  }
-}
-.description {
-  font-size: 1.4rem;
-  padding-top: 4px;
-}
-.divFollowBtn{
-    position: absolute;
-    top: 8px;
-    z-index: 1;
-    margin-top: 16px;
-    right: 0px;
+  justify-content: center;
+  height: 50px;
+  font-weight: 600;
 }

@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-inline-end: 12px;
+  width: calc(33.3% - 12px);
+}
+.shortVideo {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 4px;
+  video {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+}
+.description {
+  margin-top: 4px;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+}
+.divCaption {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.divSubInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  padding-bottom: 26px;
+}
+.linkAccount {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.imgAvatar {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.nickname {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.divTime {
+  width: 88px;
+  color: rgba(22, 24, 35, 0.5);
+}

@@ -1,8 +1,8 @@
 import Home from "~/pages/Home/";
 import Following from "~/pages/Following";
-import Profile from "~/pages/Profile/Profile";
+import Profile from "~/pages/Profile";
 import Upload from "~/pages/Upload";
-import Search from "~/pages/Search/Search";
+import Search from "~/pages/Search";
 import Live from "~/pages/Live";
 import Friend from "~/pages/Friend";
 import Explore from "~/pages/Explore";
@@ -13,6 +13,8 @@ import Message from "~/pages/Message";
 import Auth from "~/pages/Auth";
 import {WithPhone,WithEmail,ResetPassword} from "~/pages/Auth/Login";
 import {SignupPhone,SignupEmail,CreateName,CreateDateOfBirth} from "~/pages/Auth/Signup";
+import SearchAccount from "~/pages/Search/SearchAccount";
+import SearchVideo from "~/pages/Search/SearchVideo";
 
 
 const publicRoutes = [
@@ -20,6 +22,8 @@ const publicRoutes = [
   { path: config.routes.following, component: Following,isFullWidth: true },
   { path: config.routes.upload, component: Upload, layout: HeaderOnly },
   { path: config.routes.search, component: Search },
+  { path: config.routes.searchaccount, component: SearchAccount},
+  { path: config.routes.searchvideo, component: SearchVideo},
   { path: config.routes.profile, component: Profile ,isFullWidth: true},
   { path: config.routes.live, component: Live ,isFullWidth: true},
   { path: config.routes.friend, component: Friend ,isFullWidth: true},

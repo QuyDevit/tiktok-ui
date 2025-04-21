@@ -1,0 +1,97 @@
+.container {
+  padding-top: var(--default-layout-header-height);
+  min-height: 100vh;
+  display: flex;
+  width: 100%;
+  background: #16182308;
+}
+.content {
+  flex: 1 1;
+  max-width: 1150px;
+  margin: 32px auto;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+}
+.wrapperCard {
+  padding: 24px;
+  border: 1px dashed rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  background: #f7f7f7;
+
+  &:hover {
+    background: rgba(0, 117, 220, 0.06);
+    border: 1px dashed var(--ui-shape-info, #0075dc);
+    cursor: pointer;
+  }
+}
+.videoCard {
+  height: 460px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+}
+.selectIcon {
+  margin: 0px auto;
+  height: 72px;
+  width: 72px;
+}
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stageTitle {
+  margin-top: 12px;
+  font-size: 2.2rem;
+  font-weight: bold;
+}
+.stageSubTitle {
+  margin-top: 4px;
+  font-size: 1.6rem;
+  color: rgba(0, 0, 0, 0.48);
+  margin-bottom: 20px;
+}
+.btnUpload {
+  font-weight: 400;
+  width: 208px;
+  border-radius: 8px;
+}
+
+.videoSuggest {
+  display: flex;
+  padding-top: 32px;
+  gap: 12px;
+}
+
+.videoSgtItem {
+  display: flex;
+}
+.videoSgtIcon {
+  padding-right: 8px;
+}
+.videoSgtTitle {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+.videoSgtContent {
+  font-size: 1.3rem;
+  color: #0000007a;
+}
+:global(body.darkMode) {
+  .content {
+    background: #1d1d1d;
+  }
+  .wrapperCard {
+    background: #2b2b2b;
+  }
+  .stageSubTitle {
+    color: #fff;
+  }
+}

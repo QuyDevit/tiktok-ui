@@ -1,1 +1,1 @@
-export * from './EditAvatarModal'
+export {default} from './EditAvatarModal'

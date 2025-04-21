@@ -132,6 +132,9 @@
   .searchTitle {
     color: var(--light-flat-3);
   }
+  .viewAll{
+    color: var(--white);
+  }
 }
 :global(body.lightMode) {
   .icon {

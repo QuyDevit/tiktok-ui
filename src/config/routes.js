@@ -3,6 +3,8 @@ const routes = {
     following:'/following',
     upload:'/upload',
     search:'/search',
+    searchaccount:'/search/user',
+    searchvideo:'/search/video',
     profile:'/:nickname',
     live:'/live',
     friend:'/friends', 

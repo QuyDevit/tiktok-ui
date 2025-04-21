@@ -10,10 +10,12 @@ import { useEffect, useRef, useState } from "react";
 
 import { useDebounce } from "~/hooks";
 import * as searchServices from "~/services/searchService";
-import {  useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setKeyWordSearch, setTabSearchIndex } from "~/store/features/homeSlice";
 function Search() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
@@ -54,11 +56,13 @@ function Search() {
       setSearchValue(e.target.value);
     }
   };
-  const handleSearch =() =>{
+  const handleSearch = () => {
     if (!searchValue.trim()) return;
+    dispatch(setTabSearchIndex(0));
+    dispatch(setKeyWordSearch(searchValue));
     setShowResult(false);
     navigate("/search?q=" + searchValue);
-  }
+  };
   return (
     //Using a wrapper <div> or <span> tag around the reference element solves this by creating a new parentNode context.
     <div>
@@ -76,10 +80,7 @@ function Search() {
                   onClick={() => setShowResult(false)}
                 />
               ))}
-              <button
-                className={clsx(styles.viewAll)}
-                onClick={handleSearch}
-              >
+              <button className={clsx(styles.viewAll)} onClick={handleSearch}>
                 <span>Xem tất cả các kết quả cho "{searchValue}"</span>
               </button>
             </PopperWrapper>

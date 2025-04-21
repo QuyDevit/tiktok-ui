@@ -1,94 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import styles from "./Search.module.scss";
-import { Link, useSearchParams } from "react-router-dom";
-import Image from "~/components/Image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-import Button from "~/components/Button";
-const tabs = [
-  {
-    label: "Top",
-    width: 30,
-    left: 0,
-  },
-  {
-    label: "Người dùng",
-    width: 90,
-    left: 107,
-  },
-  {
-    label: "Video",
-    width: 46,
-    left: 275,
-  },
-  {
-    label: "LIVE",
-    width: 37,
-    left: 397,
-  },
-];
+import SearchAccountItem from "~/components/SearchAccountItem";
+import PostItem from "~/components/PostItem";
+import TabSearch from "./TabSearch";
+import { useDispatch, useSelector } from "react-redux";
+import { selectkeywordSearch, setKeyWordSearch } from "~/store/features/homeSlice";
+import { useSearchParams } from "react-router-dom";
+import * as searchService from "~/services/searchService";
 export default function Search() {
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
-  const [activetTab, setActiveTab] = useState(0);
-  const [hoverTab, setHoverTab] = useState(null);
+  const [searchResult, setSearchResult] = useState([]);
+  const q = useSelector(selectkeywordSearch)
+  const query = q || searchParams.get("q");
+  const [activeVideo, setActiveVideo] = useState(null);
+  useEffect(() => {
+    if(!q){
+      dispatch(setKeyWordSearch(query))
+    }
+    const fetchApi = async () => {
+      const result = await searchService.search(query);
+      setSearchResult(result);
+    };
+    fetchApi();
+  }, []);
+  const handleHover = (video) => {
+    if (activeVideo && activeVideo !== video) {
+      activeVideo.pause();
+      activeVideo.currentTime = 0;
+    }
+    setActiveVideo(video);
+    video.play();
+  };
 
-  const query = searchParams.get("q");
-  const currentIndex = hoverTab !== null ? hoverTab : activetTab;
   return (
     <div className={clsx(styles.container)}>
-      <header className={clsx(styles.header)}>
-        {tabs.map((tab, index) => (
-          <div
-            key={index}
-            onClick={() => setActiveTab(index)}
-            onMouseEnter={() => setHoverTab(index)}
-            onMouseLeave={() => setHoverTab(null)}
-            className={clsx(styles.tabItem, {
-              [styles.active]: activetTab === index,
-            })}
-          >
-            {tab.icon}
-            <span>{tab.label}</span>
-          </div>
-        ))}
-        <div
-          className={clsx(styles.divBottomLine)}
-          style={{
-            width: `${tabs[currentIndex].width}px`,
-            transform: `translateX(${tabs[currentIndex].left}px)`,
-          }}
-        ></div>
-      </header>
+      <TabSearch />
       <div className={clsx(styles.divBlockContainer)}>
         <div className={clsx(styles.titleContainer)}>
           <h2>Người dùng</h2>
         </div>
-        <div className={clsx(styles.divItemContainer)}>
-          <Link to={""} className={clsx(styles.divAvatar)}>
-            <Image
-              src="https://files.fullstack.edu.vn/f8-tiktok/users/5203/644a3d01ca0cb.jpg"
-              className={clsx(styles.image)}
-            />
-          </Link>
-          <Link to={""} className={clsx(styles.infoWrapper)}>
-            <p className={clsx(styles.nickname)}>
-              <span>letuankhang2002</span>
-              <FontAwesomeIcon
-                className={clsx(styles.check)}
-                icon={faCheckCircle}
-              />
-            </p>
-            <div className={clsx(styles.subInfo)}>
-                <span>Lê Tuấn Khang  ·</span>
-                <strong>13.7M</strong>
-                <span>Người theo dõi</span>
-            </div>
-            <p className={clsx(styles.description)}>Cuộc sống ở quê em, yên bình và giản dị!</p>
-          </Link>
-          <div className={clsx(styles.divFollowBtn)}>
-            <Button primary>Theo dõi</Button>
-          </div>
+        {searchResult.length > 0 ? (
+          searchResult.map((item) => (
+            <SearchAccountItem key={item.id} data={item} />
+          ))
+        ) : (
+          <div className={clsx(styles.divEmpty)}>Không tìm thấy người dùng.</div>
+        )}
+      </div>
+      <div className={clsx(styles.divBlockContainer)}>
+        <div className={clsx(styles.titleContainer)}>
+          <h2>Video</h2>
+        </div>
+        <div className={clsx(styles.shortVideoWrapper)}>
+          {[...Array(4)].map((_, index) => (
+            <PostItem key={index} onHover={handleHover} />
+          ))}
         </div>
       </div>
     </div>

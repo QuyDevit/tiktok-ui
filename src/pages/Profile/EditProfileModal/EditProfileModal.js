@@ -4,7 +4,7 @@ import Modal from "~/components/Modal";
 import { CloseIcon, EditIcon } from "~/components/Icons";
 import { useRef, useState } from "react";
 import Button from "~/components/Button";
-import EditAvatarModal from "../EditAvatarModal/EditAvatarModal";
+import EditAvatarModal from "../EditAvatarModal";
 import ImageSrc from "~/components/Image";
 import images from "~/assets/images";
 import * as updateInfoUser from "~/services/users/updateInfoUser";

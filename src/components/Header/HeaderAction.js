@@ -5,6 +5,7 @@ import { PlusIcon, MessageIcon } from "~/components/Icons";
 import Tippy from "@tippyjs/react";
 import { useDispatch } from "react-redux";
 import { setOpenForm } from "~/store/features/formAuthSlice";
+import config from "~/config";
 
 export default function HeaderActions({ currentUser, children, isMobile }) {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export default function HeaderActions({ currentUser, children, isMobile }) {
     <div className={clsx({ [styles.mobileActions]: isMobile }, styles.actions)}>
       {currentUser ? (
         <>
-          <Button text outline className={clsx(styles.btnUpload)}>
+          <Button to={config.routes.upload} text outline className={clsx(styles.btnUpload)}>
             <PlusIcon
               width="2rem"
               height="2rem"
@@ -30,7 +31,7 @@ export default function HeaderActions({ currentUser, children, isMobile }) {
         </>
       ) : (
         <>
-          <Button text outline className={clsx(styles.btnUpload)}>
+          <Button text outline className={clsx(styles.btnUpload)} onClick={()=> dispatch(setOpenForm(true))}>
             <PlusIcon
               width="2rem"
               height="2rem"

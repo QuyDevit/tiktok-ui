@@ -288,6 +288,9 @@
   }
   .tabItem {
     color: rgba(255, 255, 255, 0.75);
+    &.active{
+      color: var(--white);
+    }
   }
   .divBottomLine{
     background: var(--light-flat-3);

@@ -1,0 +1,80 @@
+.divItemContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 2px;
+  &:hover {
+    background-color: rgb(248, 248, 248);
+  }
+}
+.divAvatar {
+  padding: 0;
+  min-width: unset;
+  height: 60px;
+  width: 60px;
+  margin: 16px 16px 16px 0px;
+  border-radius: 50%;
+  border-color: rgba(22, 24, 35, 0.12);
+  overflow: hidden;
+}
+.image {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+}
+.infoWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.nickname {
+  display: flex;
+  align-items: center;
+
+  span {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+}
+.check {
+  margin-left: 6px;
+  color: #20d5ec;
+  font-size: 1.8rem;
+}
+
+.subInfo {
+  display: flex;
+  align-items: center;
+
+  span {
+    color: rgba(22, 24, 35, 0.75);
+    font-size: 1.4rem;
+  }
+  strong {
+    margin: 0 4px;
+    font-size: 1.4rem;
+  }
+}
+.description {
+  font-size: 1.4rem;
+  padding-top: 4px;
+}
+.divFollowBtn {
+  position: absolute;
+  top: 8px;
+  z-index: 1;
+  margin-top: 16px;
+  right: 0px;
+}
+:global(body.darkMode) {
+  .subInfo {
+    span {
+      color: var(--light-flat-3);
+    }
+  }
+  .divItemContainer {
+    &:hover {
+      background-color: var(--dark-flat-1);
+    }
+  }
+}
