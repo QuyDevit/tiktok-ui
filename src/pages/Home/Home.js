@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectMute, setMute } from "~/store/features/muteVideoSlice";
 import * as videoService from "~/services/videoService";
 import { selectrefreshCount } from "~/store/features/homeSlice";
+import routes, { pagesTitle } from "~/config/routes";
 
 export default function Home() {
   const [videos, setVideos] = useState([]);
@@ -17,6 +18,9 @@ export default function Home() {
   const mute = useSelector(selectMute);
 
   const refreshCount = useSelector(selectrefreshCount);
+  useEffect(() => {
+    document.title = pagesTitle[routes.home];
+  }, []);
 
   useEffect(() => {
     const saveMute = localStorage.getItem("mute");
@@ -44,7 +48,7 @@ export default function Home() {
     };
 
     fetchApi();
-  }, [page,refreshCount]);
+  }, [page, refreshCount]);
 
   const handleAdjustVolume = (e) => {
     setVolume(e.target.value / 100);
@@ -53,9 +57,9 @@ export default function Home() {
     <div className={clsx(styles.wrapper)}>
       {isLoading ? (
         <div className={clsx(styles.skeletonWrapper)}>
-          <div className={clsx(styles.loading,'skeletonItem')}></div>
-          <div className={clsx(styles.loading,'skeletonItem')}></div>
-          <div className={clsx(styles.loading,'skeletonItem')}></div>
+          <div className={clsx(styles.loading, "skeletonItem")}></div>
+          <div className={clsx(styles.loading, "skeletonItem")}></div>
+          <div className={clsx(styles.loading, "skeletonItem")}></div>
         </div>
       ) : (
         videos.map((video) => (

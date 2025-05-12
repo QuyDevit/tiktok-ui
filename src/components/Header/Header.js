@@ -55,13 +55,12 @@ export default function Header({ isFullWidth = false }) {
 
         <Search />
 
-        <HeaderAction
-          currentUser={currentUser}
-          isMobile={false}
-        >
+        <HeaderAction currentUser={currentUser} isMobile={false}>
           <HeaderMenu
             currentUser={currentUser}
-            menuItems={currentUser ? USER_MENU_ITEMS(currentUser) : HEADER_MENU_ITEMS}
+            menuItems={
+              currentUser ? USER_MENU_ITEMS(currentUser) : HEADER_MENU_ITEMS
+            }
             handleMenuChange={handleMenuChange}
           />
         </HeaderAction>
@@ -73,7 +72,9 @@ export default function Header({ isFullWidth = false }) {
         >
           <HeaderMenu
             currentUser={currentUser}
-            menuItems={currentUser ? USER_MENU_ITEMS(currentUser) : HEADER_MENU_ITEMS}
+            menuItems={
+              currentUser ? USER_MENU_ITEMS(currentUser) : HEADER_MENU_ITEMS
+            }
             handleMenuChange={handleMenuChange}
           />
         </HeaderMobile>
