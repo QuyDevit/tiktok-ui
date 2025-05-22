@@ -2,8 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   refreshCount: 0,
-  tabSearchIndex:0,
-  keywordSearch:""
+  tabSearchIndex: 0,
+  keywordSearch: "",
+  searchResults: {
+    live: null,
+    user: null,
+    video: null,
+  },
 };
 
 export const homeSlice = createSlice({
@@ -19,12 +24,21 @@ export const homeSlice = createSlice({
     setKeyWordSearch: (state, action) => {
       state.keywordSearch = action.payload;
     },
+    setSearchResults: (state, action) => {
+      const { type, results } = action.payload;
+      state.searchResults[type] = results;
+    },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { refreshHome,setTabSearchIndex ,setKeyWordSearch} = homeSlice.actions;
+export const {
+  refreshHome,
+  setTabSearchIndex,
+  setKeyWordSearch,
+  setSearchResults,
+} = homeSlice.actions;
 export const selectrefreshCount = (state) => state.home.refreshCount;
 export const selecttabSearchIndex = (state) => state.home.tabSearchIndex;
 export const selectkeywordSearch = (state) => state.home.keywordSearch;
+export const selectSearchResults = (state) => state.home.searchResults;
 export default homeSlice.reducer;

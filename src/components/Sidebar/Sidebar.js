@@ -24,11 +24,11 @@ import SuggestedAccount from "~/components/SuggestedAccount";
 import Button from "~/components/Button";
 import Discover from "~/components/Discover/Discover";
 import Footer from "./Footer";
-import * as suggestService from "~/services/suggestAccountService";
+import { suggest } from "~/services/suggestAccountService";
 import { refreshHome } from "~/store/features/homeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "~/store/features/authSlice";
-import {  setOpenForm } from "~/store/features/formAuthSlice";
+import { setOpenForm } from "~/store/features/formAuthSlice";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export default function Sidebar() {
   useEffect(() => {
     const fetchApi = async () => {
       setIsLoading(true);
-      const result = await suggestService.suggest(1, 12);
+      const result = await suggest(1, 12);
       setAccounts(result);
       setDisplayedAccounts(result.slice(0, 6));
       setIsLoading(false);
@@ -108,12 +108,13 @@ export default function Sidebar() {
 
         <MenuItem
           title={"Hồ sơ"}
-          to={`/@${currentUser ?currentUser?.nickname : ""}`}
+          to={`/@${currentUser ? currentUser?.nickname : ""}`}
           onClick={(e) => {
-            if(!currentUser){
+            if (!currentUser) {
               e.preventDefault();
               dispatch(setOpenForm(true));
-          }}}
+            }
+          }}
           icon={
             currentUser ? (
               <Image

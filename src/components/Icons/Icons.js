@@ -1254,3 +1254,64 @@ export const PlusRedIcon = ({ width = "2rem", height = "2rem", className }) => (
     />
   </svg>
 );
+export const HeartIcon = ({ width = "2rem", height = "2rem", className }) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path d="M24 12.62c3.91-4.08 9.84-4.1 13.6-.42a9.48 9.48 0 0 1 0 13.63L25.06 38.07a1.5 1.5 0 0 1-2.1 0L10.4 25.83a9.48 9.48 0 0 1 0-13.63c3.77-3.68 9.7-3.66 13.61.42Zm-1.9 2.36c-2.8-3.2-6.99-3.2-9.61-.63a6.48 6.48 0 0 0 0 9.33L24 34.91l11.51-11.23a6.48 6.48 0 0 0 0-9.33c-2.62-2.56-6.8-2.56-9.6.63l-.05.05-.81.8a1.5 1.5 0 0 1-2.1 0l-.81-.8-.04-.05Z"></path>
+  </svg>
+);
+export const FlagIcon = ({ width = "2rem", height = "2rem", className }) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path d="M9 9.31v17.75c5.27-1.73 11.45-2.05 16.16 1.31 4.03 2.88 9.52 2.01 13.84.32V10.94c-5.27 1.73-11.45 2.05-16.16-1.31-4-2.86-9.53-2.01-13.84-.32ZM43 8v22a2 2 0 0 1-1.1 1.79c-5.83 2.9-13.5 3.82-19.06-.16C18.8 28.75 13.32 29.6 9 31.3V44a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8c0-.75.44-1.45 1.1-1.79 5.75-2.87 13.62-3.73 19.06.16 4.37 3.13 10.43 2.04 14.95-.16C41.4 5.56 43 6.54 43 8Z"></path>
+  </svg>
+);
+export const TrashIcon = ({ width = "2rem", height = "2rem", className }) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path d="M18 20a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V20ZM27 19a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V20a1 1 0 0 0-1-1h-2Z"></path>
+    <path d="M32 8V6a5 5 0 0 0-5-5h-6a5 5 0 0 0-5 5v2H5a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2.74l1.49 24.97c.19 3.18.28 4.77.96 5.98a6 6 0 0 0 2.6 2.44c1.25.61 2.84.61 6.02.61H29.2c3.18 0 4.77 0 6.02-.6a6 6 0 0 0 2.6-2.45c.68-1.21.77-2.8.96-5.98L40.27 12H43a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H32Zm-5-3a1 1 0 0 1 1 1v2h-8V6a1 1 0 0 1 1-1h6Zm-15.25 7h24.5l-1.47 24.73c-.1 1.66-.16 2.66-.27 3.41a5 5 0 0 1-.18.83v.01a2 2 0 0 1-.9.83l-.13.04c-.13.02-.34.06-.7.09-.75.06-1.76.06-3.41.06H18.8c-1.65 0-2.66 0-3.42-.06a4.99 4.99 0 0 1-.84-.14 2 2 0 0 1-.87-.82l-.02-.03-.04-.12a5 5 0 0 1-.13-.69c-.1-.75-.17-1.75-.27-3.4L11.75 12Z"></path>
+  </svg>
+);
+export const UpIcon = ({ width = "2rem", height = "2rem", className }) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path d="m24 20.24 13.17 13.17a1 1 0 0 0 1.42 0l2.82-2.82a1 1 0 0 0 0-1.42L25.06 12.82a1.5 1.5 0 0 0-2.12 0L6.59 29.17a1 1 0 0 0 0 1.42L9.4 33.4a1 1 0 0 0 1.42 0L24 20.24Z"></path>
+  </svg>
+);
+export const DownIcon = ({ width = "2rem", height = "2rem", className }) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path d="m24 27.76 13.17-13.17a1 1 0 0 1 1.42 0l2.82 2.82a1 1 0 0 1 0 1.42L25.06 35.18a1.5 1.5 0 0 1-2.12 0L6.59 18.83a1 1 0 0 1 0-1.42L9.4 14.6a1 1 0 0 1 1.42 0L24 27.76Z"></path>
+  </svg>
+);

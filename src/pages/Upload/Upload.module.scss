@@ -785,6 +785,16 @@
   height: 36px;
   font-size: 1.4rem;
   border-radius: 8px;
+  background-color: var(--primary);
+  color: var(--white);
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ed2c52;
+  }
+}
+.disabled {
+  opacity: 0.6;
 }
 .btnWrapper {
   margin-top: 28px;
@@ -821,7 +831,10 @@
   .captionEditor {
     color: var(--white);
   }
-  .btnCancel {
+  .btnCancel,
+  .cancelBtn {
+    background-color: rgba(126, 126, 126, 0.08);
+    color: var(--white);
     &:hover {
       background: rgba(126, 126, 126, 0.122);
     }

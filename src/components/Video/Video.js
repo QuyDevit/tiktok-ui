@@ -15,15 +15,40 @@ import {
   VolumeOnIcon,
 } from "../Icons";
 import AccountPreview from "../SuggestedAccount/AccountPreview";
-import { useEffect, useRef, useState } from "react";
-import * as hepler from "~/helpers";
+import { useEffect, useRef, useState, useMemo } from "react";
+import { formatters } from "~/helpers";
+import { likevideo } from "~/services/videos/videoService";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setIsOpenVideoDetail,
+  setVideoDetail,
+  selectIsOpenVideoDetail,
+} from "~/store/features/videoDetailSlice";
+import { useDebounceCallback } from "~/hooks/useDebouncedCallback";
+import { followUser } from "~/services/users/followUser";
+import {
+  setFollowedUser,
+  selectFollowedUsers,
+} from "~/store/features/followSlice";
 
-function Video({ data, mute, volume, adjustVolume, toggleMuted }) {
+function Video({ currentUser, data, mute, volume, adjustVolume, toggleMuted }) {
+  const dispatch = useDispatch();
+  const isOpenVideoDetail = useSelector(selectIsOpenVideoDetail);
+  const followedUsers = useSelector(selectFollowedUsers);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [isLiked, setIsLiked] = useState(data?.isLiked ?? false);
+  const [likesCount, setLikesCount] = useState(data?.likesCount ?? 0);
+  const isFollow =
+    followedUsers[data?.user.id] ?? data?.user.isFollowed ?? false;
+
   const videoRef = useRef(null);
   const progressRef = useRef(null);
+
+  const formattedDate = useMemo(() => {
+    return formatters.formatDate(data.publishedAt);
+  }, [data.publishedAt]);
 
   useEffect(() => {
     videoRef.current.muted = mute;
@@ -33,7 +58,7 @@ function Video({ data, mute, volume, adjustVolume, toggleMuted }) {
   useEffect(() => {
     const videoElement = videoRef.current;
 
-    if (!videoElement) return;
+    if (!videoElement || isOpenVideoDetail) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -60,7 +85,7 @@ function Video({ data, mute, volume, adjustVolume, toggleMuted }) {
           }
         }
       },
-      { threshold: 0.75 }
+      { threshold: 0.76 }
     );
 
     observer.observe(videoElement);
@@ -68,7 +93,14 @@ function Video({ data, mute, volume, adjustVolume, toggleMuted }) {
     return () => {
       observer.unobserve(videoElement);
     };
-  }, [videoRef]);
+  }, [videoRef, isOpenVideoDetail]);
+
+  useEffect(() => {
+    if (isOpenVideoDetail && videoRef.current) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [isOpenVideoDetail]);
 
   const handleTogglePlayVideo = () => {
     const videoElement = videoRef.current;
@@ -129,13 +161,37 @@ function Video({ data, mute, volume, adjustVolume, toggleMuted }) {
       progressRef.current.style.width = `${progress}%`;
     }
   };
+  const debouncedLikeVideo = useDebounceCallback(async () => {
+    const result = await likevideo(data?.id);
+    setLikesCount(result.data);
+  }, 500);
+
+  const likeVideo = () => {
+    if (!currentUser) return;
+
+    setIsLiked((prev) => !prev);
+    debouncedLikeVideo();
+  };
+  const debouncedFollowUser = useDebounceCallback(async () => {
+    await followUser(data?.user.id);
+    dispatch(setFollowedUser({ userId: data?.user.id, isFollowed: !isFollow }));
+  }, 500);
+
+  const handleFollowUser = () => {
+    if (!currentUser) return;
+    debouncedFollowUser();
+  };
+  const handleOpenVideoDetail = () => {
+    dispatch(setVideoDetail(data));
+    dispatch(setIsOpenVideoDetail(true));
+  };
   return (
     <div className={clsx(styles.wrapper)}>
       <div>
-        <AccountPreview data={data.user} offset={[135, 0]}>
+        <AccountPreview data={data?.user} offset={[135, 0]}>
           <Link to={""}>
             <Image
-              src={data.user.avatar}
+              src={data?.user?.avatar}
               alt="ok"
               className={clsx(styles.avatar)}
             />
@@ -146,18 +202,16 @@ function Video({ data, mute, volume, adjustVolume, toggleMuted }) {
         <div className={clsx(styles.header)}>
           <div className={clsx(styles.titleContent)}>
             <AccountPreview data={data.user} offset={[-112, 0]}>
-              <Link to={""}>
+              <Link to={`@${data?.user.nickname}`}>
                 <div className={clsx(styles.author)}>
                   <h3 className={clsx(styles.nickname)}>
-                    {data.user.nickname}
+                    {data?.user?.nickname}
                   </h3>
                   <span className={clsx(styles.display)}>
-                    {data.user.first_name} {data.user.last_name}
+                    {data?.user?.fullName}
                   </span>
                   <span className={clsx(styles.dot)}>·</span>
-                  <span className={clsx(styles.time)}>
-                    {hepler.formatters.formatDate(data.created_at)}
-                  </span>
+                  <span className={clsx(styles.time)}>{formattedDate}</span>
                 </div>
               </Link>
             </AccountPreview>
@@ -165,25 +219,32 @@ function Video({ data, mute, volume, adjustVolume, toggleMuted }) {
             <p className={clsx(styles.tagAudio)}>
               <MusicIcon width="1.6rem" height="1.6rem" />
               <span className={clsx(styles.text)}>
-                Original sound - {data.user.nickname}
+                Original sound - {data?.user?.nickname}
               </span>
             </p>
           </div>
-          <Button outline className={clsx(styles.followBtn)}>
-            Theo dõi
-          </Button>
+          {data?.user.id != currentUser.id && (
+            <Button
+              primary={!isFollow}
+              outline={isFollow}
+              className={clsx(styles.followBtn)}
+              onClick={handleFollowUser}
+            >
+              {isFollow ? "Đã theo dõi" : "Theo dõi"}
+            </Button>
+          )}
         </div>
         <div className={clsx(styles.watchWrapper)}>
           <div className={clsx(styles.video)}>
             <video
               style={
-                data?.meta.video.resolution_x < data?.meta.video.resolution_y
+                data?.meta.resolutionX < data?.meta.resolutionY
                   ? { width: "305px" }
                   : { width: "573px" }
               }
               loop
               controls={false}
-              src={data.file_url}
+              src={data.fileUrl}
               ref={videoRef}
               onTimeUpdate={handleTimeUpdate}
               onLoadedMetadata={handleLoadedMetadata}
@@ -243,37 +304,45 @@ function Video({ data, mute, volume, adjustVolume, toggleMuted }) {
                   </div>
                 </div>
                 <div className={clsx(styles.timeValue)}>
-                  <span>{hepler.formatters.formatTime(currentTime)}</span>
+                  <span>{formatters.formatTime(currentTime)}</span>
                   <span style={{ margin: "0 2px" }}>/</span>
-                  <span>{hepler.formatters.formatTime(duration)}</span>
+                  <span>{formatters.formatTime(duration)}</span>
                 </div>
               </div>
             </div>
           </div>
           <div className={clsx(styles.actions)}>
             <div className={clsx(styles.actionBtn)}>
-              <Button className={clsx(styles.iconWrapper)}>
+              <Button
+                className={clsx(styles.iconWrapper, {
+                  [styles.liked]: isLiked,
+                })}
+                onClick={likeVideo}
+              >
                 <LikeIcon />
               </Button>
-              <p className={clsx(styles.value)}>124</p>
+              <p className={clsx(styles.value)}>{likesCount}</p>
             </div>
             <div className={clsx(styles.actionBtn)}>
-              <Button className={clsx(styles.iconWrapper)}>
+              <Button
+                className={clsx(styles.iconWrapper)}
+                onClick={handleOpenVideoDetail}
+              >
                 <CommentIcon />
               </Button>
-              <p className={clsx(styles.value)}>124</p>
+              <p className={clsx(styles.value)}>{data?.commentsCount}</p>
             </div>
             <div className={clsx(styles.actionBtn)}>
               <Button className={clsx(styles.iconWrapper)}>
                 <SaveIcon />
               </Button>
-              <p className={clsx(styles.value)}>124</p>
+              <p className={clsx(styles.value)}>0</p>
             </div>
             <div className={clsx(styles.actionBtn)}>
               <Button className={clsx(styles.iconWrapper)}>
                 <ShareIcon />
               </Button>
-              <p className={clsx(styles.value)}>124</p>
+              <p className={clsx(styles.value)}>{data?.sharesCount}</p>
             </div>
           </div>
         </div>

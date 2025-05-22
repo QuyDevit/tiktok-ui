@@ -3,7 +3,7 @@
   height: 56px;
   object-fit: cover;
   border-radius: 50%;
-  background:var(--white);
+  background: var(--white);
 }
 .wrapper {
   display: flex;
@@ -239,6 +239,9 @@
         &:hover {
           opacity: 0.6;
         }
+        &.liked {
+          color: var(--primary);
+        }
       }
       .value {
         font-size: 1.2rem;
@@ -267,16 +270,16 @@
 }
 
 @media only screen and (max-width: 842px) {
-  video {
+  .watchWrappervideo {
     width: 255px !important;
   }
-  .header{
+  .header {
     margin-bottom: 12px;
   }
 }
 
 @media only screen and (max-width: 1000px) {
-  .watchWrapper{
+  .watchWrapper {
     justify-content: center;
   }
 }

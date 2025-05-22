@@ -3,8 +3,9 @@ import styles from "./PostItem.module.scss";
 import { Link } from "react-router-dom";
 import Image from "../Image";
 import { useRef } from "react";
+import { formatters } from "~/helpers";
 
-function PostItem({ data,onHover }) {
+function PostItem({ data, onHover }) {
   const videoRef = useRef(null);
   const handleMouseEnter = () => {
     if (onHover) {
@@ -18,27 +19,25 @@ function PostItem({ data,onHover }) {
           loop
           controls={false}
           muted
-          src={
-            "https://files.fullstack.edu.vn/f8-tiktok/videos/3712-666b02d872740.mp4"
-          }
+          src={data?.fileUrl}
           ref={videoRef}
           className={clsx(styles.shortVideo)}
         />
       </div>
       <div className={clsx(styles.description)}>
-        <div className={clsx(styles.divCaption)}>
-          Quả lê có những loại nào những loại nào{" "}
-        </div>
+        <div className={clsx(styles.divCaption)}>{data?.description}</div>
         <div className={clsx(styles.divSubInfo)}>
           <Link to={""} className={clsx(styles.linkAccount)}>
             <Image
-              src="https://files.fullstack.edu.vn/f8-tiktok/users/5203/644a3d01ca0cb.jpg"
-              alt=""
+              src={data?.user.avatar}
+              alt={data?.user.fullName}
               className={clsx(styles.imgAvatar)}
             />
-            <span className={clsx(styles.nickname)}>khanhlyy98</span>
+            <span className={clsx(styles.nickname)}>{data?.user.nickname}</span>
           </Link>
-          <div className={clsx(styles.divTime)}>2024-9-21</div>
+          <div className={clsx(styles.divTime)}>
+            {formatters.formatShortDate(data?.publishedAt)}
+          </div>
         </div>
       </div>
     </div>

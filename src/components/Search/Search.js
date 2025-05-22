@@ -9,10 +9,13 @@ import { DeleteIcon, LoadingIcon, SearchIcon } from "~/components/Icons";
 import { useEffect, useRef, useState } from "react";
 
 import { useDebounce } from "~/hooks";
-import * as searchServices from "~/services/searchService";
+import { searchUser } from "~/services/searchService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setKeyWordSearch, setTabSearchIndex } from "~/store/features/homeSlice";
+import {
+  setKeyWordSearch,
+  setTabSearchIndex,
+} from "~/store/features/homeSlice";
 function Search() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,7 +35,7 @@ function Search() {
 
     const fetchApi = async () => {
       setLoading(true);
-      const result = await searchServices.search(debouncedValue);
+      const result = await searchUser(debouncedValue);
       setSearchResult(result);
       setLoading(false);
     };

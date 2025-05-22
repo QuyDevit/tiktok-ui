@@ -17,12 +17,14 @@ import {
 } from "~/components/Icons";
 import { Link, useParams } from "react-router-dom";
 import ProfileVideo from "./ProfileVideo";
-import * as getInfo from "~/services/users/getInfoUser";
-import * as helpers from "~/helpers";
+import { getInfoAccount } from "~/services/users/getInfoUser";
+import { formatters } from "~/helpers";
 import { useSelector } from "react-redux";
 import { selectUser } from "~/store/features/authSlice";
 import EditProfileModal from "./EditProfileModal";
 import routes, { pagesTitle } from "~/config/routes";
+import { useDebounceCallback } from "~/hooks/useDebouncedCallback";
+import { followUser } from "~/services/users/followUser";
 
 const options = ["Mới nhất", "Thịnh hành", "Cũ nhất"];
 const tabs = [
@@ -55,13 +57,29 @@ export default function Profile() {
   const [activetTab, setActiveTab] = useState(0);
   const [hoverTab, setHoverTab] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [followingCount, setFollowingCount] = useState(
+    account?.followingsCount ?? 0
+  );
+  const [isFollow, setIsFollow] = useState(account?.isFollowed ?? false);
+
+  useEffect(() => {
+    if (account) {
+      setIsFollow(account.isFollowed);
+      setFollowingCount(account.followingsCount);
+    }
+  }, [account]);
+
+  const debouncedFollowUser = useDebounceCallback(async () => {
+    await followUser(account?.id);
+    setFollowingCount((prev) => (isFollow ? prev - 1 : prev + 1));
+  }, 500);
 
   const currentIndex = hoverTab !== null ? hoverTab : activetTab;
 
   useEffect(() => {
     setLoading(true);
     const fetchApi = async () => {
-      const result = await getInfo.getInfoAccount(nickname.replace(/^@/, ""));
+      const result = await getInfoAccount(nickname.replace(/^@/, ""));
       setAccount(result.data);
       setLoading(false);
     };
@@ -79,6 +97,13 @@ export default function Profile() {
   const isCurrentUser = currentUser
     ? currentUser && currentUser.nickname === account?.nickname
     : false;
+
+  const handleFollowUser = () => {
+    if (!currentUser) return;
+
+    setIsFollow((prev) => !prev);
+    debouncedFollowUser();
+  };
 
   if (!account)
     return (
@@ -137,7 +162,13 @@ export default function Profile() {
               </>
             ) : (
               <>
-                <Button primary>Theo dõi</Button>
+                <Button
+                  primary={!isFollow}
+                  outline={isFollow}
+                  onClick={handleFollowUser}
+                >
+                  {isFollow ? "Đang theo dõi" : "Theo dõi"}
+                </Button>
                 <Button className={clsx(styles.btn)}>Tin nhắn</Button>
                 <Button className={clsx(styles.btnIcon)}>
                   <ShareIconProfile width="1.9rem" height="1.9rem" />
@@ -152,19 +183,19 @@ export default function Profile() {
             <h3 className={clsx(styles.countInfos)}>
               <div className={styles.divValue}>
                 <strong className={clsx(styles.textValue)}>
-                  {helpers.formatters.formatNumber(account.followingsCount)}
+                  {formatters.formatNumber(account.followersCount)}
                 </strong>
                 <span className={clsx(styles.title)}>Đang Follow</span>
               </div>
               <div className={styles.divValue}>
                 <strong className={clsx(styles.textValue)}>
-                  {helpers.formatters.formatNumber(account.followersCount)}
+                  {formatters.formatNumber(followingCount)}
                 </strong>
                 <span className={clsx(styles.title)}>Follower</span>
               </div>
               <div className={styles.divValue}>
                 <strong className={clsx(styles.textValue)}>
-                  {helpers.formatters.formatNumber(account.likesCount)}
+                  {formatters.formatNumber(account.likesCount)}
                 </strong>
                 <span className={clsx(styles.title)}>Thích</span>
               </div>

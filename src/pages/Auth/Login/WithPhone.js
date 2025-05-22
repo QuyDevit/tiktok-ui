@@ -16,7 +16,7 @@ import config from "~/config";
 import { useDispatch } from "react-redux";
 import { setFormType } from "~/store/features/formAuthSlice";
 import { sendotp, authlogin } from "~/services/auth/login";
-import * as authHelper from "~/helpers";
+import { authcookie } from "~/helpers";
 
 function WithPhone({ isModal = false }) {
   const navigate = useNavigate();
@@ -130,7 +130,9 @@ function WithPhone({ isModal = false }) {
         setCanSendCode(true);
         setCountdown(60);
       }
-      setReponesMessage(`${result.message}  ${result.data ? `--- ${result.data}` : ""}`);
+      setReponesMessage(
+        `${result.message}  ${result.data ? `--- ${result.data}` : ""}`
+      );
     };
     fetchApi();
   };
@@ -144,16 +146,21 @@ function WithPhone({ isModal = false }) {
     }
   };
   const handleLogin = async () => {
-    const result = await authlogin("phone", inputValue,isPassword ? password : verificationCode,isPassword ? false : true);
+    const result = await authlogin(
+      "phone",
+      inputValue,
+      isPassword ? password : verificationCode,
+      isPassword ? false : true
+    );
     if (result.success) {
-      authHelper.authcookie.setRefreshTokenExpiry();
+      authcookie.setRefreshTokenExpiry();
       if (!isModal) {
         navigate(config.routes.home);
       } else {
         window.location.reload();
       }
-    }else{
-      setReponesMessage(result.message)
+    } else {
+      setReponesMessage(result.message);
     }
   };
 

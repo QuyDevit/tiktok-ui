@@ -5,9 +5,9 @@ import { LogoIcon, QuestionIcon } from "~/components/Icons";
 import config from "~/config";
 import Button from "~/components/Button";
 import { useState } from "react";
-import * as updateInfoUser from "~/services/users/updateInfoUser";
+import { updateNickname } from "~/services/users/updateInfoUser";
 function CreateName({ isModal = false }) {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
 
   const [inputError, setInputError] = useState("");
@@ -24,28 +24,28 @@ function CreateName({ isModal = false }) {
     const error = validateInput(value);
     setInputError(error);
   };
-  const handleNext = () =>{
-    if(isModal){
+  const handleNext = () => {
+    if (isModal) {
       window.location.reload();
-    }else{
-      navigate(config.routes.home)
+    } else {
+      navigate(config.routes.home);
     }
-  }
-  const handleSubmit =() => {
-    const fetchApi = async() =>{
-      const result = await updateInfoUser.updateNickname(inputValue);
-      if(!result.success){
-        setInputError(result.message)
-      }else{
-        if(isModal){
+  };
+  const handleSubmit = () => {
+    const fetchApi = async () => {
+      const result = await updateNickname(inputValue);
+      if (!result.success) {
+        setInputError(result.message);
+      } else {
+        if (isModal) {
           window.location.reload();
-        }else{
-          navigate(config.routes.home)
+        } else {
+          navigate(config.routes.home);
         }
       }
-    }
+    };
     fetchApi();
-  }
+  };
   const canNext = () => {
     return inputValue && !inputError;
   };
@@ -102,7 +102,11 @@ function CreateName({ isModal = false }) {
           </Button>
 
           <div className={clsx(styles.back)}>
-            <Button to={config.routes.home} className={clsx(styles.btnBack)} onClick={handleNext}>
+            <Button
+              to={config.routes.home}
+              className={clsx(styles.btnBack)}
+              onClick={handleNext}
+            >
               Bỏ qua
             </Button>
           </div>

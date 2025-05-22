@@ -4,9 +4,14 @@ import React, { useEffect, useState } from "react";
 import Video from "~/components/Video";
 import { useDispatch, useSelector } from "react-redux";
 import { selectMute, setMute } from "~/store/features/muteVideoSlice";
-import * as videoService from "~/services/videoService";
+import { loadvideo } from "~/services/videos/videoService";
+
 import { selectrefreshCount } from "~/store/features/homeSlice";
 import routes, { pagesTitle } from "~/config/routes";
+import { selectUser } from "~/store/features/authSlice";
+import { selectIsOpenVideoDetail } from "~/store/features/videoDetailSlice";
+import { createPortal } from "react-dom";
+import VideoDetailModal from "../VideoDetail/components/videosection/VideoDetailModal";
 
 export default function Home() {
   const [videos, setVideos] = useState([]);
@@ -17,7 +22,9 @@ export default function Home() {
   const [prevVolume, setPrevVolume] = useState(volume);
   const mute = useSelector(selectMute);
 
+  const isOpenVideoDetail = useSelector(selectIsOpenVideoDetail);
   const refreshCount = useSelector(selectrefreshCount);
+  const currentUser = useSelector(selectUser);
   useEffect(() => {
     document.title = pagesTitle[routes.home];
   }, []);
@@ -42,8 +49,8 @@ export default function Home() {
   useEffect(() => {
     const fetchApi = async () => {
       setIsLoading(true);
-      const result = await videoService.loadvideo();
-      setVideos(result);
+      const result = await loadvideo();
+      setVideos(result.data);
       setIsLoading(false);
     };
 
@@ -53,26 +60,42 @@ export default function Home() {
   const handleAdjustVolume = (e) => {
     setVolume(e.target.value / 100);
   };
+
+  useEffect(() => {
+    if (isOpenVideoDetail) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "overlay";
+    }
+  }, [isOpenVideoDetail]);
   return (
     <div className={clsx(styles.wrapper)}>
-      {isLoading ? (
-        <div className={clsx(styles.skeletonWrapper)}>
-          <div className={clsx(styles.loading, "skeletonItem")}></div>
-          <div className={clsx(styles.loading, "skeletonItem")}></div>
-          <div className={clsx(styles.loading, "skeletonItem")}></div>
-        </div>
-      ) : (
-        videos.map((video) => (
-          <Video
-            key={video.id}
-            data={video}
-            volume={volume}
-            adjustVolume={handleAdjustVolume}
-            mute={mute}
-            toggleMuted={handleToggleMute}
-          />
-        ))
-      )}
+      <>
+        {isOpenVideoDetail &&
+          createPortal(
+            <VideoDetailModal />,
+            document.getElementById("modal-root")
+          )}
+        {isLoading ? (
+          <div className={clsx(styles.skeletonWrapper)}>
+            <div className={clsx(styles.loading, "skeletonItem")}></div>
+            <div className={clsx(styles.loading, "skeletonItem")}></div>
+            <div className={clsx(styles.loading, "skeletonItem")}></div>
+          </div>
+        ) : (
+          videos.map((video) => (
+            <Video
+              currentUser={currentUser}
+              key={video.id}
+              data={video}
+              volume={volume}
+              adjustVolume={handleAdjustVolume}
+              mute={mute}
+              toggleMuted={handleToggleMute}
+            />
+          ))
+        )}
+      </>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import clsx from "clsx";
 import styles from "./SearchAccountItem.module.scss";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button";
-import * as hepler from "~/helpers";
+import { formatters } from "~/helpers";
 function SearchAccountItem({ data }) {
   return (
     <div className={clsx(styles.divItemContainer)}>
@@ -24,9 +24,7 @@ function SearchAccountItem({ data }) {
         </p>
         <div className={clsx(styles.subInfo)}>
           <span>{data?.fullName} ·</span>
-          <strong>
-            {hepler.formatters.formatNumber(data?.followersCount)}
-          </strong>
+          <strong>{formatters.formatNumber(data?.followersCount)}</strong>
           <span>Người theo dõi</span>
         </div>
         <p className={clsx(styles.description)}>{data?.bio}</p>

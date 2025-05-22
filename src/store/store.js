@@ -7,6 +7,8 @@ import formAuthReducer from "./features/formAuthSlice";
 import loadingReducer from "./features/loadingSlice";
 import authReducer from "./features/authSlice";
 import alertReducer from "./features/alertSlice";
+import videoDetailReducer from "./features/videoDetailSlice";
+import followReducer from "./features/followSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,7 +18,9 @@ export const store = configureStore({
     home: homeReducer,
     formauth: formAuthReducer,
     loading: loadingReducer,
-    auth: authReducer  ,
-    alert: alertReducer,  
+    auth: authReducer,
+    alert: alertReducer,
+    videoDetail: videoDetailReducer,
+    follow: followReducer,
   },
 });

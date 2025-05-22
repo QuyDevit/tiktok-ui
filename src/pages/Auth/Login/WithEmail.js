@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setFormType } from "~/store/features/formAuthSlice";
 import { authlogin } from "~/services/auth/login";
-import * as authHelper from "~/helpers";
+import { authcookie } from "~/helpers";
 
 function WithEmail({ isModal = false }) {
   const navigate = useNavigate();
@@ -67,12 +67,12 @@ function WithEmail({ isModal = false }) {
     }
   };
   const handleLogin = async () => {
-    if (isLoggingIn) return; 
+    if (isLoggingIn) return;
 
     setIsLoggingIn(true);
     const result = await authlogin("email", inputValue, password);
     if (result.success) {
-      authHelper.authcookie.setRefreshTokenExpiry();
+      authcookie.setRefreshTokenExpiry();
       if (!isModal) {
         navigate(config.routes.home);
       } else {

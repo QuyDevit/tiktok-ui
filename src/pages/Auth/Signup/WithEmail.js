@@ -14,9 +14,9 @@ import config from "~/config";
 import BirthdayPicker from "~/components/BirthdayPicker";
 import { useDispatch } from "react-redux";
 import { setFormType } from "~/store/features/formAuthSlice";
-import * as registerService from "~/services/auth/register";
-import * as authHelper from "~/helpers";
+import { registerotp, registeruser } from "~/services/auth/register";
 import { useNavigate } from "react-router-dom";
+import { authcookie } from "~/helpers";
 
 function WithEmail({ isModal = false }) {
   const navigate = useNavigate();
@@ -126,7 +126,7 @@ function WithEmail({ isModal = false }) {
   const handleRegisterOtp = () => {
     startCountdown();
     const fetchApi = async () => {
-      const result = await registerService.registerotp("email", "", inputValue);
+      const result = await registerotp("email", "", inputValue);
       if (!result.success) {
         clearInterval(timerRef.current);
         setIsDisabled(false);
@@ -139,7 +139,7 @@ function WithEmail({ isModal = false }) {
   const handleRegisterUser = () => {
     setReponesMessage("");
     const fetchApi = async () => {
-      const result = await registerService.registeruser(
+      const result = await registeruser(
         "email",
         "",
         inputValue,
@@ -150,7 +150,7 @@ function WithEmail({ isModal = false }) {
       if (!result.success) {
         setCodeError(result.message);
       } else {
-        authHelper.authcookie.setRefreshTokenExpiry();
+        authcookie.setRefreshTokenExpiry();
         if (isModal) {
           dispatch(setFormType("signup-username"));
         } else {

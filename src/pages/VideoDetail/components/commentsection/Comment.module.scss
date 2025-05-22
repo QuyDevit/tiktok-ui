@@ -1,0 +1,205 @@
+.container {
+  height: calc(-2rem + 100vh);
+  padding: 0.8rem 1.6rem 1.6rem;
+  padding-inline-end: 0.8rem;
+  border-radius: 1rem;
+  background-color: var(--white);
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  max-width: 38.4rem;
+  min-width: 28.8rem;
+}
+.header {
+  padding-top: 0.4rem;
+  padding-bottom: 0.8rem;
+  display: flex;
+  flex-grow: 0;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline-end: 0.4rem;
+}
+.headerTitle {
+  display: flex;
+  gap: 0.4rem;
+
+  h3 {
+    font-size: 1.7rem;
+  }
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+}
+.divMain {
+  flex-grow: 1;
+  overflow-y: scroll;
+  overscroll-behavior: contain;
+  padding-inline-end: 0.8rem;
+  scrollbar-width: none;
+}
+.divListContainer {
+  padding-top: 24px;
+}
+.objectWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.itemWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &:hover .divMore {
+    opacity: 1;
+  }
+}
+.avatarWrapper {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 1 auto;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.contentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.userName {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: rgb(22, 24, 35);
+}
+.divMore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  cursor: pointer;
+}
+.level1 {
+  p {
+    font-size: 1.4rem;
+    line-height: 1.82rem;
+    letter-spacing: 0.0938px;
+  }
+}
+.subContent {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+}
+.time,
+.text {
+  font-size: 1.4rem;
+  color: rgba(0, 0, 0, 0.48);
+  text-wrap: nowrap;
+}
+.text {
+  font-weight: 600;
+  cursor: pointer;
+}
+.like {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  color: rgba(0, 0, 0, 0.48);
+  cursor: pointer;
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.menuContainer {
+  min-height: unset;
+}
+.menuItem {
+  display: flex;
+  background: none;
+  padding: 8px 16px;
+  gap: 4px;
+  align-items: center;
+  width: 100%;
+
+  &:hover {
+    color: var(--primary);
+    cursor: pointer;
+  }
+}
+.divReplyContainer {
+  display: flex;
+  flex-direction: column;
+  margin-inline-start: 52px;
+  gap: 16px;
+}
+.divViewReplyContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.spaceRelies {
+  display: flex;
+  width: 32px;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.48);
+}
+.divViewMoreOption {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.48);
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.divFooter {
+  flex-grow: 0;
+  padding-inline-end: 4px;
+}
+.inputWraper {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+}
+.inputForm {
+  background-color: rgba(0, 0, 0, 0.05);
+  height: 42px;
+  position: relative;
+  display: flex;
+  border-radius: 8px;
+  padding: 0px 9px;
+  border: 1px solid transparent;
+  flex: 1 1 auto;
+
+  &:focus {
+    border: 1px solid rgba(0, 0, 0, 0.48);
+  }
+}
+.btnPost {
+  background: none;
+  flex: 0 0 48px;
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 39px;
+  text-align: right;
+  margin-right: 4px;
+  cursor: pointer;
+}

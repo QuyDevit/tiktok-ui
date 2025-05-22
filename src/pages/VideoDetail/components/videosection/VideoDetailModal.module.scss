@@ -1,0 +1,160 @@
+.container {
+  width: 100%;
+  max-width: unset;
+  display: flex;
+  align-items: center;
+  inset: 0;
+  position: fixed;
+  overflow-x: clip;
+  overscroll-behavior: contain;
+  z-index: 1999;
+  padding: 1rem;
+  background-color: rgb(from rgba(0, 0, 0, 0.8) r g b / 0.9);
+  backdrop-filter: blur(4px);
+
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: -1;
+  }
+}
+.divPlayerContent {
+  position: relative;
+  max-height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
+  transition-property: flex;
+  transition-duration: 300ms;
+  padding-inline-end: 64px;
+}
+.left {
+  position: relative;
+  background-size: cover;
+  min-width: calc(500px - 152px);
+  min-height: calc(888.889px - 270.2224px);
+  align-self: center;
+  width: 100%;
+  max-height: calc(-16px + 100vh);
+  max-width: calc(-18px + 56.25vh);
+  aspect-ratio: 9/16;
+  flex-shrink: 0;
+}
+.right {
+  height: calc(-2rem + 100vh);
+  position: relative;
+  transition-property: flex, width, max-width, margin;
+  transition-duration: 300ms;
+  transition-timing-function: linear;
+  flex-grow: 0;
+  flex-shrink: 1;
+  max-width: 38.4rem;
+}
+.wrapper {
+  height: 100%;
+  position: relative;
+  width: 100%;
+  z-index: 3;
+  aspect-ratio: 9/16;
+}
+.actionBarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.divAvatarActionBar {
+  position: relative;
+  margin-bottom: 20px;
+}
+.imgAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.styleAvatarFollow {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+}
+.btnActionItem {
+  border: none;
+  background: none;
+  outline: none;
+  padding: 0px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-direction: column;
+
+  strong {
+    font-size: 1.2rem;
+    color: var(--white);
+  }
+}
+.iconStyle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  margin-top: 8px;
+  margin-bottom: 6px;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.navigationBtn,
+.closeBtn {
+  width: 48px;
+  height: 48px;
+  background: rgba(84, 84, 84, 0.5);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  border-radius: 50%;
+
+  &:hover {
+    background: rgba(84, 84, 84, 0.7);
+  }
+}
+.closeBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+}
+.divNavigation {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

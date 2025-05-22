@@ -7,8 +7,8 @@ import Button from "~/components/Button";
 import EditAvatarModal from "../EditAvatarModal";
 import ImageSrc from "~/components/Image";
 import images from "~/assets/images";
-import * as updateInfoUser from "~/services/users/updateInfoUser";
-import * as helper from "~/helpers";
+import { updateInfo } from "~/services/users/updateInfoUser";
+import { formatters } from "~/helpers";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "~/store/features/authSlice";
@@ -74,11 +74,11 @@ function EditProfileModal({ isOpen, onClose, currentUser }) {
     formData.append("Nickname", nickName);
     formData.append("Bio", bio);
     if (avatar !== currentUser?.avatar) {
-      formData.append("Avatar", helper.formatters.base64ToBlob(avatar));
+      formData.append("Avatar", formatters.base64ToBlob(avatar));
     }
 
     const fetchApi = async () => {
-      const result = await updateInfoUser.updateInfo(formData);
+      const result = await updateInfo(formData);
       if (!result?.success) {
         dispatch(show(result.message));
       } else {

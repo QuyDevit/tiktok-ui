@@ -16,7 +16,7 @@ import HeaderMenu from "./HeaderMenu";
 import HeaderMobile from "./HeaderMobile";
 import { selectUser } from "~/store/features/authSlice";
 import { logoutuser } from "~/services/auth/logout";
-import * as authHelper from "~/helpers";
+import { authcookie } from "~/helpers";
 
 export default function Header({ isFullWidth = false }) {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ export default function Header({ isFullWidth = false }) {
     } else if (menuItem.to === "/logout") {
       const result = await logoutuser();
       if (result.success) {
-        authHelper.authcookie.clearRefreshToken();
+        authcookie.clearRefreshToken();
         window.location.reload();
       }
     }

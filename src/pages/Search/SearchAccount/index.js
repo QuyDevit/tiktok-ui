@@ -1,1 +1,1 @@
-export {default} from './SearchAccount'
+export { default } from "./SearchAccount";

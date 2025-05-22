@@ -5,11 +5,12 @@ import Image from "../Image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import AccountPreview from "./AccountPreview";
+import { Link } from "react-router-dom";
 function AccountItem({ data }) {
   return (
     <div>
       <AccountPreview data={data}>
-        <div className={clsx(styles.accountItem)}>
+        <Link to={`/@${data?.nickname}`} className={clsx(styles.accountItem)}>
           <Image
             src={data.avatar}
             alt={data.nickname}
@@ -25,11 +26,9 @@ function AccountItem({ data }) {
                 />
               )}
             </p>
-            <p className={clsx(styles.display)}>
-              {data.first_name} {data.last_name}
-            </p>
+            <p className={clsx(styles.display)}>{data?.fullName}</p>
           </div>
-        </div>
+        </Link>
       </AccountPreview>
     </div>
   );

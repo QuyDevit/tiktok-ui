@@ -58,3 +58,9 @@
     }
   }
 }
+
+:global(body.darkMode) {
+  .selectBtn {
+    background-color: var(--white);
+  }
+}

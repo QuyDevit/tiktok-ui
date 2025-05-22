@@ -11,8 +11,8 @@ import config from "~/config";
 import BirthdayPicker from "~/components/BirthdayPicker";
 import { useDispatch } from "react-redux";
 import { setFormType } from "~/store/features/formAuthSlice";
-import * as registerService from "~/services/auth/register";
-import * as authHelper from"~/helpers"
+import { registerotp, registeruser } from "~/services/auth/register";
+import { authcookie } from "~/helpers";
 
 function WithPhone({ isModal = false }) {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function WithPhone({ isModal = false }) {
   const [countdown, setCountdown] = useState(60);
   const [reponesmessage, setReponesMessage] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-  
+
   const timerRef = useRef(null);
 
   const startCountdown = () => {
@@ -48,7 +48,6 @@ function WithPhone({ isModal = false }) {
   // Error states
   const [phoneError, setPhoneError] = useState("");
   const [codeError, setCodeError] = useState("");
-  const [canSendCode, setCanSendCode] = useState(false);
 
   const handleBirthdayChange = (newValue) => {
     setBirthday(newValue);
@@ -121,7 +120,7 @@ function WithPhone({ isModal = false }) {
   const handleRegisterOtp = () => {
     startCountdown();
     const fetchApi = async () => {
-      const result = await registerService.registerotp("phone", inputValue, "");
+      const result = await registerotp("phone", inputValue, "");
       if (!result.success) {
         clearInterval(timerRef.current);
         setIsDisabled(false);
@@ -135,7 +134,7 @@ function WithPhone({ isModal = false }) {
   const handleRegisterUser = () => {
     setReponesMessage("");
     const fetchApi = async () => {
-      const result = await registerService.registeruser(
+      const result = await registeruser(
         "phone",
         inputValue,
         "",
@@ -146,7 +145,7 @@ function WithPhone({ isModal = false }) {
       if (!result.success) {
         setCodeError(result.message);
       } else {
-        authHelper.authcookie.setRefreshTokenExpiry();
+        authcookie.setRefreshTokenExpiry();
         if (isModal) {
           dispatch(setFormType("signup-username"));
         } else {

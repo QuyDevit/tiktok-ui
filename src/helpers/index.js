@@ -36,6 +36,10 @@ export const formatters = {
     const diffInYears = Math.floor(diffInMonths / 12);
     return `${diffInYears} năm trước`;
   },
+  formatShortDate: (isoString) => {
+    const date = new Date(isoString);
+    return date.toISOString().split("T")[0];
+  },
   formatNumber: (num) => {
     const units = [
       { value: 1e9, suffix: "B" },
@@ -50,15 +54,15 @@ export const formatters = {
     }
     return num.toString();
   },
-  base64ToBlob : (base64, mimeType) => {
+  base64ToBlob: (base64, mimeType) => {
     const byteCharacters = atob(base64.split(",")[1]); // Bỏ phần đầu 'data:image/jpeg;base64,'
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: mimeType });
-}
+  },
 };
 export const authcookie = {
   hasValidRefreshToken: () => {

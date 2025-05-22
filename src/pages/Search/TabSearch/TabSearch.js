@@ -32,30 +32,34 @@ const tabs = [
     left: 397,
   },
 ];
+
 function TabSearch() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const query = useSelector(selectkeywordSearch);
-  const activetTab = useSelector(selecttabSearchIndex);
+  const activeTab = useSelector(selecttabSearchIndex);
   const [hoverTab, setHoverTab] = useState(null);
-  const currentIndex = hoverTab !== null ? hoverTab : activetTab;
+  const currentIndex = hoverTab !== null ? hoverTab : activeTab;
 
   const handlerMapSearch = (index) => {
     dispatch(setTabSearchIndex(index));
+    const queryString = query ? `?q=${query}` : "";
+
     switch (index) {
       case 0:
-        navigate(`${config.search}?q=${query}`);
+        navigate(`${config.search}${queryString}`);
         break;
       case 1:
-        navigate(`${config.searchaccount}?q=${query}`);
+        navigate(`${config.searchaccount}${queryString}`);
         break;
       case 2:
-        navigate(`${config.searchvideo}?q=${query}`);
+        navigate(`${config.searchvideo}${queryString}`);
         break;
       default:
         break;
     }
   };
+
   return (
     <header className={clsx(styles.header)}>
       {tabs.map((tab, index) => (
@@ -65,7 +69,7 @@ function TabSearch() {
           onMouseEnter={() => setHoverTab(index)}
           onMouseLeave={() => setHoverTab(null)}
           className={clsx(styles.tabItem, {
-            [styles.active]: activetTab === index,
+            [styles.active]: activeTab === index,
           })}
         >
           {tab.icon}
