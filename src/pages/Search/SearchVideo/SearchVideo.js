@@ -6,7 +6,7 @@ import { useSearch } from "~/hooks/useSearch";
 import { useState } from "react";
 
 function SearchVideo({ hideTabSearch }) {
-  const { searchResult } = useSearch("video");
+  const { searchResult, loadMore, isLoading } = useSearch("video");
   const [activeVideo, setActiveVideo] = useState(null);
 
   const handleHover = (video) => {
@@ -29,8 +29,8 @@ function SearchVideo({ hideTabSearch }) {
           <h2>Video</h2>
         </div>
         <div className={clsx(styles.shortVideoWrapper)}>
-          {searchResult && searchResult.length > 0 ? (
-            searchResult.map((item, index) => (
+          {searchResult.data && searchResult.data.length > 0 ? (
+            searchResult.data.map((item, index) => (
               <PostItem
                 key={item?.id || index}
                 data={item}
@@ -45,6 +45,15 @@ function SearchVideo({ hideTabSearch }) {
             </div>
           )}
         </div>
+        {searchResult.hasMore && (
+          <button
+            className={clsx(styles.loadMoreBtn)}
+            onClick={loadMore}
+            disabled={isLoading}
+          >
+            {isLoading ? "Đang tải..." : "Xem thêm"}
+          </button>
+        )}
       </div>
     </div>
   );

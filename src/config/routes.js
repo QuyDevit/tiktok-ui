@@ -6,6 +6,7 @@ const routes = {
   searchaccount: "/search/user",
   searchvideo: "/search/video",
   profile: "/:nickname",
+  videoDetail: "/video/:videoId",
   live: "/live",
   friend: "/friends",
   message: "/messages",
@@ -30,6 +31,8 @@ export const pagesTitle = {
   [routes.search]: (search) => `Tìm '${search}' trên TikTok | Tìm kiếm TikTok`,
   [routes.profile]: (name, username) =>
     `${name} (@${username}) TikTok | Xem video TikTok mới nhất của ${name}`,
+  [routes.videoDetail]: (description, username) =>
+    `${description} | (@${username}) | TikTok`,
   [routes.upload]: "Tải lên | TikTok",
   [routes.explore]: "Khám phá | TikTok",
   [routes.friend]: "Bạn bè | TikTok",

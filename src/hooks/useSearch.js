@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectkeywordSearch,
@@ -16,12 +16,54 @@ export const useSearch = (type = "all") => {
   const q = useSelector(selectkeywordSearch);
   const query = q || searchParams.get("q");
   const searchResults = useSelector(selectSearchResults);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!q && query) {
       dispatch(setKeyWordSearch(query));
     }
   }, [q, query, dispatch]);
+
+  const loadMore = async () => {
+    if (isLoading || !query) return;
+
+    const currentResults = searchResults[type];
+    if (!currentResults || !currentResults.hasMore) return;
+
+    setIsLoading(true);
+    try {
+      let result;
+      if (type === "user") {
+        result = await searchUser(
+          query,
+          "more",
+          currentResults.nextSearchAfter
+        );
+      } else if (type === "video") {
+        result = await searchVideo(
+          query,
+          "more",
+          currentResults.nextSearchAfter
+        );
+      }
+
+      dispatch(
+        setSearchResults({
+          type,
+          results: {
+            data: [...currentResults.data, ...result.data],
+            query,
+            hasMore: result.hasMore,
+            nextSearchAfter: result.nextSearchAfter,
+          },
+        })
+      );
+    } catch (error) {
+      console.error("Load more error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -37,31 +79,19 @@ export const useSearch = (type = "all") => {
       }
 
       try {
-        // Nếu là trang search chính (type === 'all'), gọi cả 2 API
-        if (type === "all") {
-          const [userResults, videoResults] = await Promise.all([
-            searchUser(query, "more"),
-            searchVideo(query, "more"),
-          ]);
-          dispatch(
-            setSearchResults({
-              type: "user",
-              results: { data: userResults, query },
-            })
-          );
-          dispatch(
-            setSearchResults({
-              type: "video",
-              results: { data: videoResults, query },
-            })
-          );
-        } else if (type === "user") {
+        if (type === "user") {
           // Nếu là trang user, chỉ gọi API user
           const result = await searchUser(query, "more");
+
           dispatch(
             setSearchResults({
               type,
-              results: { data: result, query },
+              results: {
+                data: result.data,
+                query,
+                hasMore: result.hasMore,
+                nextSearchAfter: result.nextSearchAfter,
+              },
             })
           );
         } else if (type === "video") {
@@ -70,7 +100,12 @@ export const useSearch = (type = "all") => {
           dispatch(
             setSearchResults({
               type,
-              results: { data: result, query },
+              results: {
+                data: result.data,
+                query,
+                hasMore: result.hasMore,
+                nextSearchAfter: result.nextSearchAfter,
+              },
             })
           );
         }
@@ -85,14 +120,16 @@ export const useSearch = (type = "all") => {
       }
     };
     fetchApi();
-  }, [query, type, dispatch, searchResults]);
+  }, [query, type]);
 
   useEffect(() => {
     document.title = pagesTitle[routes.search](query || "");
   }, [query]);
 
   return {
-    searchResult: searchResults[type]?.data || [],
+    searchResult: searchResults[type] || [],
     query,
+    loadMore,
+    isLoading,
   };
 };

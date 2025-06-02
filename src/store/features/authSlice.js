@@ -11,9 +11,11 @@ export const authSlice = createSlice({
   reducers: {
     setUser: (state, actions) => {
       state.userInfo = actions.payload;
+      state.isAuthChecking = false;
     },
     logout: (state) => {
       state.userInfo = null;
+      state.isAuthChecking = false;
     },
     setAuthChecking: (state, actions) => {
       state.isAuthChecking = actions.payload;

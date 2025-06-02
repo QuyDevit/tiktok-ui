@@ -63,6 +63,8 @@
   cursor: pointer;
   border-radius: 50%;
   overflow: hidden;
+  min-width: 40px;
+  min-height: 40px;
 }
 .contentWrapper {
   display: flex;
@@ -123,6 +125,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &.liked {
+      color: var(--primary);
+    }
   }
 }
 .menuContainer {
@@ -175,9 +181,26 @@
   padding-inline-end: 4px;
 }
 .inputWraper {
+  position: relative;
   margin-top: 16px;
   display: flex;
   gap: 8px;
+}
+.replyIndicator {
+  position: absolute;
+  top: -32px;
+  box-shadow: 1px 1px 3px #ccc;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 1.4rem;
+}
+.cancelReply {
+  margin-left: 4px;
+  padding: 2px 8px;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 4px;
+  cursor: pointer;
 }
 .inputForm {
   background-color: rgba(0, 0, 0, 0.05);
@@ -202,4 +225,33 @@
   text-align: right;
   margin-right: 4px;
   cursor: pointer;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+
+  &.enable {
+    background: var(--primary);
+    color: var(--white);
+  }
+}
+.replyInputContainer {
+  margin-left: 48px;
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.btnCancel {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+  font-weight: 600;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

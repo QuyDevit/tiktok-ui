@@ -57,7 +57,7 @@ function Upload() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!isAuthChecking && currentUser === null) {
+    if (!isAuthChecking && !currentUser) {
       navigate(routes.login);
     }
   }, [currentUser, isAuthChecking, navigate]);

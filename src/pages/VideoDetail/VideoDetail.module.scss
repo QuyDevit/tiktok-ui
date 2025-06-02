@@ -1,0 +1,66 @@
+.errorMessage {
+  font-size: 2.4rem;
+  font-weight: 600;
+}
+.container {
+  width: 100%;
+  padding-bottom: 40px;
+}
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.6rem;
+  margin-bottom: 24px;
+}
+.wrapper {
+  display: flex;
+  gap: 24px;
+}
+.divLeft {
+  flex: 1 1 808px;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+.divRight {
+  width: 322px;
+  flex: 0 0 322px;
+}
+.divInfo {
+  display: flex;
+  flex-direction: column;
+}
+.divDescription {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(248, 248, 248);
+  padding: 16px;
+  border-radius: 0px 0px 12px 12px;
+}
+.mainContent {
+  display: flex;
+  flex-direction: column;
+}
+.tagAudio {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  margin-top: 4px;
+}
+.divCommentContainer {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+}
+.commentTitle {
+  color: rgb(22, 24, 35);
+  font-weight: 700;
+  line-height: 26px;
+  font-size: 1.8rem;
+}
+@media (max-width: 900px) {
+  .wrapper {
+    flex-direction: column;
+  }
+}

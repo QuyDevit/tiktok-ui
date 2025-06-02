@@ -9,6 +9,7 @@ import authReducer from "./features/authSlice";
 import alertReducer from "./features/alertSlice";
 import videoDetailReducer from "./features/videoDetailSlice";
 import followReducer from "./features/followSlice";
+import videoListReducer from "./features/videoListSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,5 +23,6 @@ export const store = configureStore({
     alert: alertReducer,
     videoDetail: videoDetailReducer,
     follow: followReducer,
+    videoList: videoListReducer,
   },
 });

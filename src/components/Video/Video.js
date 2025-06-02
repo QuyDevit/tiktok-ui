@@ -30,25 +30,28 @@ import {
   setFollowedUser,
   selectFollowedUsers,
 } from "~/store/features/followSlice";
+import { selectVideos, setCurrentIndex } from "~/store/features/videoListSlice";
+import config from "~/config";
 
 function Video({ currentUser, data, mute, volume, adjustVolume, toggleMuted }) {
   const dispatch = useDispatch();
   const isOpenVideoDetail = useSelector(selectIsOpenVideoDetail);
   const followedUsers = useSelector(selectFollowedUsers);
+  const videos = useSelector(selectVideos);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isLiked, setIsLiked] = useState(data?.isLiked ?? false);
   const [likesCount, setLikesCount] = useState(data?.likesCount ?? 0);
   const isFollow =
-    followedUsers[data?.user.id] ?? data?.user.isFollowed ?? false;
+    followedUsers[data?.user?.id] ?? data?.user?.isFollowed ?? false;
 
   const videoRef = useRef(null);
   const progressRef = useRef(null);
 
   const formattedDate = useMemo(() => {
-    return formatters.formatDate(data.publishedAt);
-  }, [data.publishedAt]);
+    return data?.publishedAt ? formatters.formatDate(data.publishedAt) : "";
+  }, [data?.publishedAt]);
 
   useEffect(() => {
     videoRef.current.muted = mute;
@@ -182,14 +185,29 @@ function Video({ currentUser, data, mute, volume, adjustVolume, toggleMuted }) {
     debouncedFollowUser();
   };
   const handleOpenVideoDetail = () => {
+    const videoIndex = videos.findIndex((video) => video.id === data.id);
+    if (videoIndex !== -1) {
+      dispatch(setCurrentIndex(videoIndex));
+    }
     dispatch(setVideoDetail(data));
     dispatch(setIsOpenVideoDetail(true));
+
+    const newUrl = config.routes.videoDetail.replace(":videoId", data.id);
+    window.history.pushState(
+      {
+        fromModal: true,
+        previousUrl: window.location.pathname,
+        videoId: data.id,
+      },
+      "",
+      newUrl
+    );
   };
   return (
     <div className={clsx(styles.wrapper)}>
       <div>
         <AccountPreview data={data?.user} offset={[135, 0]}>
-          <Link to={""}>
+          <Link to={`@${data?.user.nickname}`}>
             <Image
               src={data?.user?.avatar}
               alt="ok"
@@ -201,8 +219,8 @@ function Video({ currentUser, data, mute, volume, adjustVolume, toggleMuted }) {
       <div className={clsx(styles.content)}>
         <div className={clsx(styles.header)}>
           <div className={clsx(styles.titleContent)}>
-            <AccountPreview data={data.user} offset={[-112, 0]}>
-              <Link to={`@${data?.user.nickname}`}>
+            <AccountPreview data={data?.user} offset={[-112, 0]}>
+              <Link to={`@${data?.user?.nickname}`}>
                 <div className={clsx(styles.author)}>
                   <h3 className={clsx(styles.nickname)}>
                     {data?.user?.nickname}
@@ -215,7 +233,7 @@ function Video({ currentUser, data, mute, volume, adjustVolume, toggleMuted }) {
                 </div>
               </Link>
             </AccountPreview>
-            <p className={clsx(styles.description)}>{data.description}</p>
+            <p className={clsx(styles.description)}>{data?.description}</p>
             <p className={clsx(styles.tagAudio)}>
               <MusicIcon width="1.6rem" height="1.6rem" />
               <span className={clsx(styles.text)}>
@@ -223,7 +241,7 @@ function Video({ currentUser, data, mute, volume, adjustVolume, toggleMuted }) {
               </span>
             </p>
           </div>
-          {data?.user.id != currentUser.id && (
+          {currentUser && data?.user?.id !== currentUser.id && (
             <Button
               primary={!isFollow}
               outline={isFollow}
@@ -235,16 +253,19 @@ function Video({ currentUser, data, mute, volume, adjustVolume, toggleMuted }) {
           )}
         </div>
         <div className={clsx(styles.watchWrapper)}>
-          <div className={clsx(styles.video)}>
+          <div
+            className={clsx(styles.video)}
+            onDoubleClick={handleOpenVideoDetail}
+          >
             <video
               style={
-                data?.meta.resolutionX < data?.meta.resolutionY
+                data?.meta?.resolutionX < data?.meta?.resolutionY
                   ? { width: "305px" }
                   : { width: "573px" }
               }
               loop
               controls={false}
-              src={data.fileUrl}
+              src={data?.fileUrl}
               ref={videoRef}
               onTimeUpdate={handleTimeUpdate}
               onLoadedMetadata={handleLoadedMetadata}

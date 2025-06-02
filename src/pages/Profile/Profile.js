@@ -19,12 +19,19 @@ import { Link, useParams } from "react-router-dom";
 import ProfileVideo from "./ProfileVideo";
 import { getInfoAccount } from "~/services/users/getInfoUser";
 import { formatters } from "~/helpers";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "~/store/features/authSlice";
 import EditProfileModal from "./EditProfileModal";
 import routes, { pagesTitle } from "~/config/routes";
 import { useDebounceCallback } from "~/hooks/useDebouncedCallback";
 import { followUser } from "~/services/users/followUser";
+import { loadvideouser } from "~/services/videos/videoService";
+import {
+  selectVideos,
+  setHasMore,
+  setSearchAfter,
+  setVideos,
+} from "~/store/features/videoListSlice";
 
 const options = ["Mới nhất", "Thịnh hành", "Cũ nhất"];
 const tabs = [
@@ -48,6 +55,7 @@ const tabs = [
   },
 ];
 export default function Profile() {
+  const dispatch = useDispatch();
   const { nickname } = useParams();
   const currentUser = useSelector(selectUser);
 
@@ -61,12 +69,28 @@ export default function Profile() {
     account?.followingsCount ?? 0
   );
   const [isFollow, setIsFollow] = useState(account?.isFollowed ?? false);
-
+  const videos = useSelector(selectVideos);
   useEffect(() => {
     if (account) {
       setIsFollow(account.isFollowed);
       setFollowingCount(account.followingsCount);
     }
+  }, [account]);
+
+  useEffect(() => {
+    if (!account) return;
+    const fetchInitialVideos = async () => {
+      try {
+        const result = await loadvideouser(account.id);
+        dispatch(setVideos(result.data));
+        dispatch(setHasMore(result.hasMore));
+        dispatch(setSearchAfter(result.nextSearchAfter));
+      } catch (error) {
+        console.error("Error loading initial videos:", error);
+      }
+    };
+
+    fetchInitialVideos();
   }, [account]);
 
   const debouncedFollowUser = useDebounceCallback(async () => {
@@ -252,8 +276,12 @@ export default function Profile() {
             ))}
           </div>
         </div>
-        <main className={clsx(styles.mainDetailWrapper)}>
-          <ProfileVideo tab={activetTab} />
+        <main
+          className={clsx(
+            videos?.length > 0 ? styles.gridVideoFeed : styles.mainDetailWrapper
+          )}
+        >
+          <ProfileVideo videos={videos} tab={activetTab} />
         </main>
       </div>
     </div>

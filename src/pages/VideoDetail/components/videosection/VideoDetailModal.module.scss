@@ -33,7 +33,6 @@
   gap: 1.6rem;
   transition-property: flex;
   transition-duration: 300ms;
-  padding-inline-end: 64px;
 }
 .left {
   position: relative;
@@ -126,6 +125,9 @@
   &:hover {
     background-color: rgba(255, 255, 255, 0.08);
   }
+}
+.liked {
+  color: var(--primary);
 }
 
 .navigationBtn,

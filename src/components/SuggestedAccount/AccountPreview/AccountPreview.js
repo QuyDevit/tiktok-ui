@@ -7,8 +7,29 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 import Tippy from "@tippyjs/react/headless";
 import { formatters } from "~/helpers";
+import { useState } from "react";
+import { selectUser } from "~/store/features/authSlice";
+import { useSelector } from "react-redux";
+import { useDebounceCallback } from "~/hooks/useDebouncedCallback";
+import { followUser } from "~/services/users/followUser";
 
 function AccountPreview({ offset = [-20, 0], data, children }) {
+  const [followingCount, setFollowingCount] = useState(
+    data?.followingsCount ?? 0
+  );
+
+  const [isFollow, setIsFollow] = useState(data?.isFollowed ?? false);
+  const currentUser = useSelector(selectUser);
+  const handleFollowUser = () => {
+    if (!currentUser) return;
+
+    setIsFollow((prev) => !prev);
+    debouncedFollowUser();
+  };
+  const debouncedFollowUser = useDebounceCallback(async () => {
+    await followUser(data?.id);
+    setFollowingCount((prev) => (isFollow ? prev - 1 : prev + 1));
+  }, 500);
   if (!data) {
     return children;
   }
@@ -23,8 +44,13 @@ function AccountPreview({ offset = [-20, 0], data, children }) {
               alt="ok"
               className={clsx(styles.avatar)}
             />
-            <Button primary className={clsx(styles.followBtn)}>
-              Theo dõi
+            <Button
+              className={clsx(styles.followBtn)}
+              primary={!isFollow}
+              outline={isFollow}
+              onClick={handleFollowUser}
+            >
+              {isFollow ? "Đang theo dõi" : "Theo dõi"}
             </Button>
           </div>
           <div className={clsx(styles.body)}>
@@ -40,7 +66,7 @@ function AccountPreview({ offset = [-20, 0], data, children }) {
             <p className={clsx(styles.display)}>{data?.fullName}</p>
             <p className={clsx(styles.analytics)}>
               <strong className={clsx(styles.value)}>
-                {formatters.formatNumber(data?.followersCount ?? 0)}
+                {formatters.formatNumber(followingCount)}
               </strong>
               <span className={clsx(styles.label)}>Theo dõi</span>
               <strong className={clsx(styles.value)}>

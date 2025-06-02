@@ -9,6 +9,43 @@
   overflow: hidden;
   border-radius: 16px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+
+  .centerPlayButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    background-color: rgb(1 0 0 / 70%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    &.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    svg {
+      width: 4rem;
+      height: 4rem;
+      color: white;
+    }
+  }
 
   &:hover .mediaCardTopLeft {
     opacity: 1;
@@ -37,11 +74,21 @@
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   transition: opacity 0.3s;
   z-index: 2;
   width: 100%;
+}
+.divDescription {
+  width: 100%;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--white);
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .mediaCardTopLeft,
 .mediaCardTopRight {

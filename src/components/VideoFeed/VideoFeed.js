@@ -1,17 +1,14 @@
 import clsx from "clsx";
-import styles from "./PostItem.module.scss";
-import { Link } from "react-router-dom";
-import Image from "../Image";
-import { useRef } from "react";
-import { formatters } from "~/helpers";
+import styles from "./VideoFeed.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { selectVideos, setCurrentIndex } from "~/store/features/videoListSlice";
+import { useRef } from "react";
 import {
   setIsOpenVideoDetail,
   setVideoDetail,
 } from "~/store/features/videoDetailSlice";
 
-function PostItem({ data, onHover }) {
+function VideoFeed({ data, onHover }) {
   const dispatch = useDispatch();
   const videos = useSelector(selectVideos);
   const videoRef = useRef(null);
@@ -45,27 +42,8 @@ function PostItem({ data, onHover }) {
           className={clsx(styles.shortVideo)}
         />
       </div>
-      <div className={clsx(styles.description)}>
-        <div className={clsx(styles.divCaption)}>{data?.description}</div>
-        <div className={clsx(styles.divSubInfo)}>
-          <Link
-            to={`/@${data?.user.nickname}`}
-            className={clsx(styles.linkAccount)}
-          >
-            <Image
-              src={data?.user.avatar}
-              alt={data?.user.fullName}
-              className={clsx(styles.imgAvatar)}
-            />
-            <span className={clsx(styles.nickname)}>{data?.user.nickname}</span>
-          </Link>
-          <div className={clsx(styles.divTime)}>
-            {formatters.formatShortDate(data?.publishedAt)}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
 
-export default PostItem;
+export default VideoFeed;

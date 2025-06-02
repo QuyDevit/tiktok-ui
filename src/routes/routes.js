@@ -18,6 +18,7 @@ import {
   CreateName,
   CreateDateOfBirth,
 } from "~/pages/Auth/Signup";
+import VideoDetail from "~/pages/VideoDetail";
 
 const publicRoutes = [
   { path: config.routes.home, component: Home },
@@ -27,6 +28,11 @@ const publicRoutes = [
   { path: config.routes.searchaccount, component: Search },
   { path: config.routes.searchvideo, component: Search },
   { path: config.routes.profile, component: Profile, isFullWidth: true },
+  {
+    path: config.routes.videoDetail,
+    component: VideoDetail,
+    isFullWidth: true,
+  },
   { path: config.routes.live, component: Live, isFullWidth: true },
   { path: config.routes.friend, component: Friend, isFullWidth: true },
   { path: config.routes.explore, component: Explore, isFullWidth: true },

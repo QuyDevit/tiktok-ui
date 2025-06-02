@@ -73,14 +73,38 @@
     background: var(--dark-flat-3);
   }
 }
-.shortVideoWrapper{
+.shortVideoWrapper {
   display: flex;
   flex-wrap: wrap;
 }
-.divEmpty{
+.divEmpty {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 50px;
   font-weight: 600;
+}
+.loadMoreContainer {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+.loadMoreBtn {
+  padding: 8px 16px;
+  background-color: #fe2c55;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  max-width: fit-content;
+  align-self: center;
+  &:hover {
+    background-color: #f01d3c;
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 }

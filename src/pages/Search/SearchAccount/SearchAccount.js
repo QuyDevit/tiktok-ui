@@ -5,7 +5,7 @@ import TabSearch from "../TabSearch/TabSearch";
 import { useSearch } from "~/hooks/useSearch";
 
 function SearchAccount({ hideTabSearch }) {
-  const { searchResult } = useSearch("user");
+  const { searchResult, loadMore, isLoading } = useSearch("user");
 
   return (
     <div
@@ -17,16 +17,25 @@ function SearchAccount({ hideTabSearch }) {
         <div className={clsx(styles.titleContainer)}>
           <h2>Người dùng</h2>
         </div>
-        {searchResult && searchResult.length > 0 ? (
-          searchResult.map((item) => (
+        {searchResult.data && searchResult.data.length > 0 ? (
+          searchResult.data.map((item) => (
             <SearchAccountItem key={item.id} data={item} />
           ))
         ) : (
           <div className={clsx(styles.divEmpty)}>
-            {searchResult === null
+            {searchResult.data === null
               ? "Nhập từ khóa để tìm kiếm người dùng"
               : "Không tìm thấy người dùng."}
           </div>
+        )}
+        {searchResult.hasMore && (
+          <button
+            className={clsx(styles.loadMoreBtn)}
+            onClick={loadMore}
+            disabled={isLoading}
+          >
+            {isLoading ? "Đang tải..." : "Xem thêm"}
+          </button>
         )}
       </div>
     </div>

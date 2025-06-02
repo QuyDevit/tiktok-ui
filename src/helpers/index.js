@@ -5,7 +5,25 @@ export const formatters = {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   },
   formatDate: (dateString) => {
-    const date = new Date(dateString);
+    if (!dateString) return "";
+
+    let date;
+    try {
+      date = new Date(dateString);
+
+      if (isNaN(date.getTime())) {
+        date = new Date(parseInt(dateString));
+      }
+
+      if (isNaN(date.getTime())) {
+        console.error("Invalid date format:", dateString);
+        return "";
+      }
+    } catch (error) {
+      console.error("Error parsing date:", error);
+      return "";
+    }
+
     const now = new Date();
     const diffInSeconds = Math.floor((now - date) / 1000);
 
