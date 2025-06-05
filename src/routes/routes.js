@@ -36,10 +36,23 @@ const publicRoutes = [
   { path: config.routes.live, component: Live, isFullWidth: true },
   { path: config.routes.friend, component: Friend, isFullWidth: true },
   { path: config.routes.explore, component: Explore, isFullWidth: true },
-  { path: config.routes.message, component: Message, isFullWidth: true },
+  {
+    path: config.routes.message,
+    component: Message,
+    isFullWidth: true,
+    layout: HeaderOnly,
+  },
   { path: config.routes.login, component: Auth, layout: null },
-  { path: config.routes.loginphone, component: WithPhone, layout: null },
-  { path: config.routes.loginemail, component: WithEmail, layout: null },
+  {
+    path: config.routes.loginphone,
+    component: () => <WithPhone />,
+    layout: null,
+  },
+  {
+    path: config.routes.loginemail,
+    component: () => <WithEmail />,
+    layout: null,
+  },
   {
     path: config.routes.resetwithemail,
     component: () => <ResetPassword resetWith="email" />,
@@ -55,8 +68,16 @@ const publicRoutes = [
     component: () => <Auth isFormLogin={false} />,
     layout: null,
   },
-  { path: config.routes.signupphone, component: SignupPhone, layout: null },
-  { path: config.routes.signupemail, component: SignupEmail, layout: null },
+  {
+    path: config.routes.signupphone,
+    component: () => <SignupPhone />,
+    layout: null,
+  },
+  {
+    path: config.routes.signupemail,
+    component: () => <SignupEmail />,
+    layout: null,
+  },
   { path: config.routes.createusername, component: CreateName, layout: null },
   {
     path: config.routes.createdateofbirth,

@@ -26,7 +26,7 @@ export default function Home() {
   const [prevVolume, setPrevVolume] = useState(volume);
   const mute = useSelector(selectMute);
   const lastVideoRef = useRef(null);
-  const loadingRef = useRef(false); // Prevent multiple calls
+  const loadingRef = useRef(false);
 
   const videos = useSelector(selectVideos);
   const hasMore = useSelector(selectHasMore);
@@ -57,7 +57,6 @@ export default function Home() {
     }
   };
 
-  // Initial load
   useEffect(() => {
     const fetchInitialVideos = async () => {
       setIsLoading(true);
@@ -76,7 +75,6 @@ export default function Home() {
     fetchInitialVideos();
   }, [refreshCount, dispatch]);
 
-  // Load more videos function
   const loadMoreVideos = useCallback(async () => {
     if (loadingRef.current || !hasMore || isLoadingMore) {
       return;
@@ -101,14 +99,12 @@ export default function Home() {
     }
   }, [hasMore, isLoadingMore, searchAfter, dispatch]);
 
-  // Scroll event listener approach
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = document.documentElement.scrollTop;
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
 
-      // Check if we're near the bottom (within 200px)
       const isNearBottom = scrollTop + windowHeight >= documentHeight - 200;
 
       if (isNearBottom && hasMore && !loadingRef.current) {
@@ -116,7 +112,6 @@ export default function Home() {
       }
     };
 
-    // Add throttling to scroll event
     let timeoutId;
     const throttledScroll = () => {
       if (timeoutId) return;
@@ -134,7 +129,6 @@ export default function Home() {
     };
   }, [hasMore, loadMoreVideos]);
 
-  // Fallback: Intersection Observer for last video
   useEffect(() => {
     if (!lastVideoRef.current || !hasMore) return;
 
@@ -143,7 +137,6 @@ export default function Home() {
         const entry = entries[0];
 
         if (entry.isIntersecting && hasMore && !loadingRef.current) {
-          console.log("Loading more via Intersection Observer");
           loadMoreVideos();
         }
       },

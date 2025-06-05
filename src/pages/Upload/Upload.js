@@ -311,12 +311,9 @@ function Upload() {
     const ctx = canvas.getContext("2d");
     const thumbnails = [];
 
-    // Calculate the time interval for each part
     const interval = video.duration / 9;
 
-    // Generate 9 thumbnails from each part of the video
     for (let i = 0; i < 9; i++) {
-      // Calculate the time for this part (middle of each interval)
       const time = interval * (i + 0.5);
       video.currentTime = time;
 

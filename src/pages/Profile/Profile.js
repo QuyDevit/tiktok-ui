@@ -176,7 +176,9 @@ export default function Profile() {
                 <Button primary onClick={() => setOpenModal(true)}>
                   Sửa hồ sơ
                 </Button>
-                <Button className={clsx(styles.btn)}>Quảng bá bài đăng</Button>
+                <Button className={clsx(styles.btn)} to={routes.message}>
+                  Tin nhắn
+                </Button>
                 <Button className={clsx(styles.btnIcon)}>
                   <SettingIcon width="1.9rem" height="1.9rem" />
                 </Button>
@@ -193,7 +195,12 @@ export default function Profile() {
                 >
                   {isFollow ? "Đang theo dõi" : "Theo dõi"}
                 </Button>
-                <Button className={clsx(styles.btn)}>Tin nhắn</Button>
+                <Button
+                  className={clsx(styles.btn)}
+                  to={`${routes.message}?u=${account.id}`}
+                >
+                  Tin nhắn
+                </Button>
                 <Button className={clsx(styles.btnIcon)}>
                   <ShareIconProfile width="1.9rem" height="1.9rem" />
                 </Button>

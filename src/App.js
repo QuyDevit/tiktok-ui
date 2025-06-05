@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { publicRoutes } from "~/routes";
 import DefaultLayout from "./layouts";
-import { Fragment, useEffect, Suspense, lazy } from "react";
+import { Fragment, useEffect, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsLoading } from "./store/features/loadingSlice";
 import Loading from "./components/Loading";
@@ -56,12 +56,6 @@ function App() {
     };
   }, [user, dispatch]);
 
-  // Lazy load routes
-  const lazyRoutes = publicRoutes.map((route) => ({
-    ...route,
-    component: lazy(() => import(`./pages/${route.component.name}`)),
-  }));
-
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
@@ -70,7 +64,7 @@ function App() {
           {isLoading && <Loading />}
 
           <Routes>
-            {lazyRoutes.map((route, index) => {
+            {publicRoutes.map((route, index) => {
               var Layout = DefaultLayout;
               if (route.layout) {
                 Layout = route.layout;

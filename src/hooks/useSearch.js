@@ -72,7 +72,6 @@ export const useSearch = (type = "all") => {
         return;
       }
 
-      // Kiểm tra cache: chỉ dùng cache nếu query giống nhau
       const cachedResults = searchResults[type];
       if (cachedResults && cachedResults.query === query) {
         return;
@@ -80,7 +79,6 @@ export const useSearch = (type = "all") => {
 
       try {
         if (type === "user") {
-          // Nếu là trang user, chỉ gọi API user
           const result = await searchUser(query, "more");
 
           dispatch(
@@ -95,7 +93,6 @@ export const useSearch = (type = "all") => {
             })
           );
         } else if (type === "video") {
-          // Nếu là trang video, chỉ gọi API video
           const result = await searchVideo(query, "more");
           dispatch(
             setSearchResults({

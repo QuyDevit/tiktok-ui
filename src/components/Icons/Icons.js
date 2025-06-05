@@ -1331,3 +1331,134 @@ export const CheckIcon = ({ width = "2rem", height = "2rem", className }) => (
     ></path>
   </svg>
 );
+export const EmojiIcon = ({ width = "2rem", height = "2rem", className }) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M24 6C14.0589 6 6 14.0589 6 24C6 33.9411 14.0589 42 24 42C33.9411 42 42 33.9411 42 24C42 14.0589 33.9411 6 24 6ZM2 24C2 11.8497 11.8497 2 24 2C36.1503 2 46 11.8497 46 24C46 36.1503 36.1503 46 24 46C11.8497 46 2 36.1503 2 24Z"
+    ></path>
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M17 23C18.6569 23 20 21.2091 20 19C20 16.7909 18.6569 15 17 15C15.3431 15 14 16.7909 14 19C14 21.2091 15.3431 23 17 23Z"
+    ></path>
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M31 23C32.6569 23 34 21.2091 34 19C34 16.7909 32.6569 15 31 15C29.3431 15 28 16.7909 28 19C28 21.2091 29.3431 23 31 23Z"
+    ></path>
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M16 28.3431C16 31.4673 19.5817 36 24 36C28.4183 36 32 31.4673 32 28.3431C32 25.219 16 25.219 16 28.3431Z"
+    ></path>
+  </svg>
+);
+export const SendIcon = ({ width = "2rem", height = "2rem", className }) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M20 10C20 4.48 15.52 0 10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10ZM6 9H10V6L14 10L10 14V11H6V9Z"
+      fill="currentColor"
+    ></path>
+  </svg>
+);
+export const AddPersonIcon = ({
+  width = "2rem",
+  height = "2rem",
+  className,
+}) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <circle cx="15" cy="8" r="4" />
+    <path d="M15,14c-6.1,0-8,4-8,4v2h16v-2C23,18,21.1,14,15,14z" />
+    <line
+      fill="currentColor"
+      stroke="currentColor"
+      strokeMiterlimit="10"
+      strokeWidth="2"
+      x1="5"
+      x2="5"
+      y1="7"
+      y2="15"
+    />
+    <line
+      fill="currentColor"
+      stroke="currentColor"
+      strokeMiterlimit="10"
+      strokeWidth="2"
+      x1="9"
+      x2="1"
+      y1="11"
+      y2="11"
+    />
+  </svg>
+);
+export const AddGroupIcon = ({
+  width = "2.4rem",
+  height = "2.4rem",
+  className,
+}) => (
+  <svg
+    className={className}
+    fill="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <g>
+      <path d="M10,9c0-1.7,1.3-3,3-3s3,1.3,3,3c0,1.7-1.3,3-3,3S10,10.7,10,9z M13,14c-4.6,0-6,3.3-6,3.3V19h12v-1.7   C19,17.3,17.6,14,13,14z" />
+    </g>
+    <g>
+      <g>
+        <circle cx="19.5" cy="8.5" r="2.5" />
+      </g>
+      <g>
+        <path d="M19.5,13c-1.2,0-2.1,0.3-2.8,0.8c2.3,1.1,3.2,3,3.2,3.2l0,0.1H24v-1.3C24,15.7,22.9,13,19.5,13z" />
+      </g>
+    </g>
+    <line
+      fill="currentColor"
+      stroke="currentColor"
+      strokeMiterlimit="10"
+      strokeWidth="2"
+      x1="5"
+      x2="5"
+      y1="7"
+      y2="15"
+    />
+    <line
+      fill="currentColor"
+      stroke="currentColor"
+      strokeMiterlimit="10"
+      strokeWidth="2"
+      x1="9"
+      x2="1"
+      y1="11"
+      y2="11"
+    />
+  </svg>
+);

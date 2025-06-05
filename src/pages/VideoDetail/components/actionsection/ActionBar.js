@@ -64,7 +64,7 @@ export default function ActionBar({ currentUser, videoDetail }) {
           alt={videoDetail?.user.fullName}
           className={clsx(styles.imgAvatar)}
         />
-        {currentUser && currentUser.id != videoDetail?.user.id && (
+        {currentUser && currentUser.id !== videoDetail?.user.id && (
           <button
             className={clsx(styles.styleAvatarFollow)}
             style={isFollow ? { background: "white" } : {}}

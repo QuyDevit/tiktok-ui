@@ -64,3 +64,8 @@
     flex-direction: column;
   }
 }
+:global(body.darkMode) {
+  .divDescription {
+    background-color: #1c1c1c;
+  }
+}

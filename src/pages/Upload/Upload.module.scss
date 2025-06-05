@@ -813,6 +813,12 @@
   }
 }
 :global(body.darkMode) {
+  .beforeUpload {
+    background-color: #212121;
+  }
+  .videoSgtContent {
+    color: var(--white);
+  }
   .wrapperCard {
     background: #2b2b2b;
   }

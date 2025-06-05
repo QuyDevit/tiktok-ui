@@ -18,6 +18,7 @@
   justify-content: space-between;
   align-items: center;
   padding-inline-end: 0.4rem;
+  color: var(--dark);
 }
 .headerTitle {
   display: flex;
@@ -253,5 +254,31 @@
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.noCommentsContainer {
+  color: var(--dark);
+}
+
+:global(body.darkMode) {
+  .container {
+    background-color: #1c1c1c;
+  }
+  .header,
+  .contentHeader,
+  .userName,
+  .time,
+  .like,
+  .text,
+  .spaceRelies,
+  .divViewMoreOption,
+  .noCommentsContainer,
+  .btnPost {
+    color: var(--white);
+  }
+  .inputForm {
+    background-color: rgb(255 255 255 / 5%);
+    color: var(--white);
   }
 }
